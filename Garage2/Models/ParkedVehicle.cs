@@ -10,7 +10,7 @@
         public int? Year { get; set; }
         public string? Color { get; set; }
         public int? NumberOfWheels { get; set; }
-        public DateTime TimeOfArrival { get; } = DateTime.Today;
+        public DateTime TimeOfArrival { get; set; } = DateTime.Today;
 
     }
 }
