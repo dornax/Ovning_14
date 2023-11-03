@@ -54,7 +54,7 @@ namespace Garage2.Models
 
 
         [DisplayName("Time of arrival")]
-        public DateTime TimeOfArrival { get; set; } = DateTime.Today;
+        public DateTime TimeOfArrival { get; set; } = DateTime.Now;     // Does not work as intended, Needs help.
 
     }
 }
