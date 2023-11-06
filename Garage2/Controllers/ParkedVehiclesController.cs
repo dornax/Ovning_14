@@ -51,6 +51,25 @@ namespace Garage2.Controllers
             return View();
         }
 
+        public IActionResult Park()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Park([Bind("ParkedVehicleId,VehicleType,RegistrationNumber,Make,Model,Year,Color,NumberOfWheels")] ParkedVehicle parkedVehicle)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(parkedVehicle);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Park));
+            }
+            return View(parkedVehicle);
+        }
+
+
         // POST: ParkedVehicles/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
