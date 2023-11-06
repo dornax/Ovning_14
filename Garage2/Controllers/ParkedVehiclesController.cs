@@ -79,6 +79,7 @@ namespace Garage2.Controllers
         {
             if (ModelState.IsValid)
             {
+                parkedVehicle.TimeOfArrival = DateTime.Now;
                 _context.Add(parkedVehicle);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -119,6 +120,7 @@ namespace Garage2.Controllers
                 try
                 {
                     _context.Update(parkedVehicle);
+                    _context.Entry(parkedVehicle).Property(v => v.TimeOfArrival).IsModified = false;
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

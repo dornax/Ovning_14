@@ -10,11 +10,9 @@ namespace Garage2.Models
         public int ParkedVehicleId { get; set; }
 
 
-
         [DisplayName("Vehicle type")]
         [Required]
         public string VehicleType { get; set; } = string.Empty;
-
 
 
         [DisplayName("Registration number")]
@@ -24,11 +22,9 @@ namespace Garage2.Models
         public string RegistrationNumber { get; set;} = string.Empty;
 
 
-
         [StringLength(25)]
         [Required]
         public string Make { get; set; } = string.Empty;
-
 
 
         [StringLength(25)]
@@ -36,15 +32,12 @@ namespace Garage2.Models
         public string Model { get; set; } = string.Empty;
 
 
-
         [Range(1930, 3000)]
         public int? Year { get; set; }
 
 
-
         [StringLength(25)]
         public string? Color { get; set; }
-
 
 
         [DisplayName("Number of wheels")]
@@ -52,9 +45,8 @@ namespace Garage2.Models
         public int? NumberOfWheels { get; set; }
 
 
-
         [DisplayName("Time of arrival")]
-        public DateTime TimeOfArrival { get; set; } = DateTime.Now;     // Does not work as intended, Needs help.
+        public DateTime TimeOfArrival { get; set; } 
 
     }
 }
