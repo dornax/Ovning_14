@@ -28,7 +28,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Color)
             </th>
-            
+            @* <th>
+                @Html.DisplayNameFor(model => model.NumberOfWheels)
+            </th> *@
             <th></th>
         </tr>
     </thead>
@@ -56,9 +58,9 @@
             @* <td>
                 @Html.DisplayFor(modelItem => item.NumberOfWheels)
             </td> *@
-            <td>
+            @* <td>
                 @Html.DisplayFor(modelItem => item.TimeOfArrival)
-            </td>
+            </td> *@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ParkedVehicleId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.ParkedVehicleId">Details</a> |
