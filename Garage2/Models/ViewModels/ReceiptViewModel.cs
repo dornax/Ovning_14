@@ -12,6 +12,8 @@
 
         public decimal Price { get; set; }
 
+        public string TimeParked { get; set; } = string.Empty;
+
 
         public void SetDepartureTime() //kanske kalla på denna genom en knapp när man lämnar parkering?
         {
@@ -21,8 +23,9 @@
         public void CalculateTimeAndPrice()
         {
             TimeSpan timeParked = TimeOfDeparture - TimeOfArrival;
+            TimeParked = timeParked.ToString(@"h\:mm\:ss");
             //if price is 10 kr per hour.
-            Price = (decimal)timeParked.TotalHours * 10;
+            Price = Math.Round((decimal)timeParked.TotalHours * 10, 2);
         }
 
     }
