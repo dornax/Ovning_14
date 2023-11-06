@@ -1,0 +1,24 @@
+﻿@model List<ParkedVehicle>
+@using (Html.BeginForm("Index", "ParkedVehiclesController", FormMethod.Get))
+{
+    <p>
+        search registration number 
+        <input type="text">
+        <input type="submit">
+    </p>
+}
+<table>
+    <tr>
+        <th>
+            <a asp-action="Index" asp-route-sortOrder="@ViewData["RegistrationNumberSortParm"]">
+                Registration Number
+            </a>
+        </th>
+        <th>
+            <a asp-action="Index" asp-route-sortOrder="@ViewData["TimeOfArrivalSortParm"]">
+                Arrival Time
+            </a>
+        </th>
+       
+    </tr>
+

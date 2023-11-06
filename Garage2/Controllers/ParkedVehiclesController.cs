@@ -20,7 +20,22 @@ namespace Garage2.Controllers
             _context = context;
         }
 
-        GET: ParkedVehicles
+        //public async Task<IActionResult> Filter(string RegistrationNumber)
+        //{
+        //    var filteredCars = await _context.ParkedVehicle.where
+        //    (v => v.RegistrationNumber).ToList();
+
+        //      {
+        //        RegistrationNumber = v.RegistrationNumber,
+
+
+
+
+
+        //      })
+        //}
+
+        // GET: ParkedVehicles
         public async Task<IActionResult> Index()
         {
             var model = await _context.ParkedVehicle.Select(v => new OverviewViewModel
@@ -48,7 +63,7 @@ namespace Garage2.Controllers
             return View(model);
 
         }
-
+      
         // GET: ParkedVehicles/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -72,6 +87,25 @@ namespace Garage2.Controllers
         {
             return View();
         }
+
+        public IActionResult Park()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Park([Bind("ParkedVehicleId,VehicleType,RegistrationNumber,Make,Model,Year,Color,NumberOfWheels")] ParkedVehicle parkedVehicle)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(parkedVehicle);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Park));
+            }
+            return View(parkedVehicle);
+        }
+
 
         // POST: ParkedVehicles/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
