@@ -19,6 +19,21 @@ namespace Garage2.Controllers
             _context = context;
         }
 
+        //public async Task<IActionResult> Filter(string RegistrationNumber)
+        //{
+        //    var filteredCars = await _context.ParkedVehicle.where
+        //    (v => v.RegistrationNumber).ToList();
+
+        //      {
+        //        RegistrationNumber = v.RegistrationNumber,
+
+
+
+
+
+        //      })
+        //}
+
         // GET: ParkedVehicles
         public async Task<IActionResult> Index()
         {
@@ -26,7 +41,7 @@ namespace Garage2.Controllers
                           View(await _context.ParkedVehicle.ToListAsync()) :
                           Problem("Entity set 'Garage2Context.ParkedVehicle'  is null.");
         }
-
+      
         // GET: ParkedVehicles/Details/5
         public async Task<IActionResult> Details(int? id)
         {
