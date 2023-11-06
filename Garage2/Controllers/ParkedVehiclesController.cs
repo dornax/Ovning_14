@@ -212,7 +212,7 @@ namespace Garage2.Controllers
             await _context.SaveChangesAsync();
 
             // Returnera kvittovyn med den skapade ViewModel
-            return View(receiptViewModel);
+            return View("Receipt", receiptViewModel);
         }
     }
 }
