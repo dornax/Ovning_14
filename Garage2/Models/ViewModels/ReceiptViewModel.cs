@@ -13,6 +13,11 @@
         public decimal Price { get; set; }
 
 
+        public void SetDepartureTime() //kanske kalla på denna genom en knapp när man lämnar parkering?
+        {
+            TimeOfDeparture = DateTime.Now;
+        }
+
         public void CalculateTimeAndPrice()
         {
             TimeSpan timeParked = TimeOfDeparture - TimeOfArrival;
