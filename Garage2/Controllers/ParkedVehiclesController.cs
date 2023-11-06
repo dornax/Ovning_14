@@ -20,7 +20,7 @@ namespace Garage2.Controllers
             _context = context;
         }
 
-        GET: ParkedVehicles
+        // GET: ParkedVehicles
         public async Task<IActionResult> Index()
         {
             var model = await _context.ParkedVehicle.Select(v => new OverviewViewModel
