@@ -1,24 +1,46 @@
-﻿@model List<ParkedVehicle>
-@using (Html.BeginForm("Index", "ParkedVehiclesController", FormMethod.Get))
-{
-    <p>
-        search registration number 
-        <input type="text">
-        <input type="submit">
-    </p>
+﻿@model  IEnumerable<ParkedVehicle>
+@{
+    ViewData["Title"] = "FilterIndex";
 }
-<table>
-    <tr>
-        <th>
-            <a asp-action="Index" asp-route-sortOrder="@ViewData["RegistrationNumberSortParm"]">
-                Registration Number
-            </a>
-        </th>
-        <th>
-            <a asp-action="Index" asp-route-sortOrder="@ViewData["TimeOfArrivalSortParm"]">
-                Arrival Time
-            </a>
-        </th>
-       
-    </tr>
 
+
+<form asp-controller="ParkedVehicles" asp-action="Index" method="get">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" name="searchvalue" placeholder="Search on reg number">
+        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
+    </div>
+</form>
+ 
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RegistrationNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TimeOfArrival)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RegistrationNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TimeOfArrival)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ParkedVehicleId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ParkedVehicleId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ParkedVehicleId">Delete</a>
+                </td>
+               
+            </tr>
+        }
+    </tbody>
+</table>
