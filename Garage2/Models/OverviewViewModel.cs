@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Garage2.Models.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace Garage2.Models
 {
@@ -7,7 +8,7 @@ namespace Garage2.Models
 
 
         public int ParkedVehicleId { get; set; }
-        public string VehicleType { get; set; } = string.Empty;
+        public VehicleTypes VehicleType { get; set; }
 
         public string RegistrationNumber { get; set; } = string.Empty;
         public string Make { get; set; } = string.Empty;

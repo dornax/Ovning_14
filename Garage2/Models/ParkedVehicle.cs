@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Garage2.Models.Entities;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Garage2.Models
@@ -13,7 +14,7 @@ namespace Garage2.Models
 
         [DisplayName("Vehicle type")]
         [Required]
-        public string VehicleType { get; set; } = string.Empty;
+        public VehicleTypes VehicleType { get; set; }
 
 
 
