@@ -1,0 +1,33 @@
+﻿    body {
+        font-size: 14pt;
+        margin: 0;
+        color: #000;
+    }
+
+    header, 
+    footer {
+        display:none;
+    }
+
+
+    dl.row {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0;
+        padding: 0;
+    }
+
+    dt.col-sm-2, dd.col-sm-10 {
+        flex: 0 0 50%; 
+        box-sizing: border-box;
+        margin: 0;
+        padding: 5px; 
+    }
+
+    dt.col-sm-2 {
+        font-weight: bold; 
+    }
+
+    dd.col-sm-10 {
+        margin-bottom: 10px; 
+    }
