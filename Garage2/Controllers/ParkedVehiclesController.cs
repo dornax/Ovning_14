@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Garage2.Data;
 using Garage2.Models;
 using System.Drawing;
+using Garage2.Migrations;
 
 namespace Garage2.Controllers
 {
@@ -20,20 +21,18 @@ namespace Garage2.Controllers
             _context = context;
         }
 
-        //public async Task<IActionResult> Filter(string RegistrationNumber)
-        //{
-        //    var filteredCars = await _context.ParkedVehicle.where
-        //    (v => v.RegistrationNumber).ToList();
+        public async Task<IActionResult> Search(string RegNo)//TimeOfArrival
+        {
+            var model = _context.ParkedVehicle.Where(e => e.RegistrationNumber.StartsWith(RegNo))
+                                         .Select(r => new OverviewViewModel
+                                         {
+                                            RegistrationNumber=r.RegistrationNumber,
+                                            //TimeOfArrival
+                                         });
 
-        //      {
-        //        RegistrationNumber = v.RegistrationNumber,
+            return View(nameof(Index), await model.ToListAsync());
+        }
 
-
-
-
-
-        //      })
-        //}
 
         // GET: ParkedVehicles
         public async Task<IActionResult> Index()
