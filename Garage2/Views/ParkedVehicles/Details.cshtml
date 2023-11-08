@@ -59,6 +59,10 @@
             @Html.DisplayFor(model => model.NumberOfWheels)
         </dd>
     </dl>
+   <!--La till denna för att kunna testa kvittovyn-->
+    <form method="post" action="/ParkedVehicles/GenerateReceipt/@Model.ParkedVehicleId">
+        <button type="submit" class="btn btn-primary">Leave parking</button>
+    </form>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.ParkedVehicleId">Edit</a> |

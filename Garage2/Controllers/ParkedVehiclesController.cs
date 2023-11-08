@@ -7,8 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Garage2.Data;
 using Garage2.Models;
-using System.Drawing;
 using Garage2.Models.ViewModels;
+using System.Drawing;
+using Garage2.Migrations;
 
 namespace Garage2.Controllers
 {
@@ -21,14 +22,40 @@ namespace Garage2.Controllers
             _context = context;
         }
 
-        // GET: ParkedVehicles
-        public async Task<IActionResult> Index()
+        
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-            return _context.ParkedVehicle != null ?
-                        View(await _context.ParkedVehicle.ToListAsync()) :
-                        Problem("Entity set 'Garage2Context.ParkedVehicle'  is null.");
+            ViewData["RegistrationNumberSortParm"] = String.IsNullOrEmpty(sortOrder) ? "RegistrationNumber_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["CurrentFilter"] = searchString;
+
+            var ParkedVehicle = from s in _context.ParkedVehicle
+                                select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                ParkedVehicle = ParkedVehicle.Where(s => s.RegistrationNumber.Contains(searchString));
+                                       //|| s.VehicleType.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "RegistrationNumber_desc":
+                    ParkedVehicle = ParkedVehicle.OrderByDescending(s => s.RegistrationNumber);
+                    break;
+                case "Date":
+                    ParkedVehicle = ParkedVehicle.OrderBy(s => s.TimeOfArrival);
+                    break;
+                case "date_desc":
+                    ParkedVehicle = ParkedVehicle.OrderByDescending(s => s.TimeOfArrival);
+                    break;
+                default:
+                    ParkedVehicle = ParkedVehicle.OrderBy(s => s.RegistrationNumber);
+                    break;
+            }
+            return View("Index", await ParkedVehicle.AsNoTracking().ToListAsync());
         }
 
+        
+      
         // GET: ParkedVehicles/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -265,6 +292,41 @@ namespace Garage2.Controllers
         private bool ParkedVehicleExists(int id)
         {
             return (_context.ParkedVehicle?.Any(e => e.ParkedVehicleId == id)).GetValueOrDefault();
+        }
+
+        public async Task<IActionResult> GenerateReceipt(int id)
+        {
+            // Hitta det parkerade fordonet med det specificerade ID:t
+            var parkedVehicle = await _context.ParkedVehicle.FirstOrDefaultAsync(m => m.ParkedVehicleId == id);
+
+            // Om inget fordon hittas med det ID:t, returnera NotFound-resultat
+            if (parkedVehicle == null)
+            {
+                return NotFound();
+            }
+
+            // Skapa en ny ViewModel för kvittot och fyll i information från fordonet
+            var receiptViewModel = new ReceiptViewModel
+            {
+                ParkedVehicleId = parkedVehicle.ParkedVehicleId,
+                VehicleType = parkedVehicle.VehicleType,
+                RegistrationNumber = parkedVehicle.RegistrationNumber,
+                TimeOfArrival = parkedVehicle.TimeOfArrival,
+            };
+
+            // Anropa metoden som sätter avresetid till nuvarande tid
+            receiptViewModel.SetDepartureTime();
+
+
+            // Beräkna tid och pris baserat på pris- och tid
+            receiptViewModel.CalculateTimeAndPrice();
+
+            // Ta bort fordonet från databasen efter att kvittot är generat
+            _context.ParkedVehicle.Remove(parkedVehicle);
+            await _context.SaveChangesAsync();
+
+            // Returnera kvittovyn med den skapade ViewModel
+            return View("Receipt", receiptViewModel);
         }
     }
 }
