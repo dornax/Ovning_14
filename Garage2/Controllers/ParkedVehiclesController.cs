@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Garage2.Data;
 using Garage2.Models;
+using Garage2.Models.ViewModels;
 using System.Drawing;
 using Garage2.Migrations;
 
@@ -205,6 +206,41 @@ namespace Garage2.Controllers
         private bool ParkedVehicleExists(int id)
         {
           return (_context.ParkedVehicle?.Any(e => e.ParkedVehicleId == id)).GetValueOrDefault();
+        }
+
+        public async Task<IActionResult> GenerateReceipt(int id)
+        {
+            // Hitta det parkerade fordonet med det specificerade ID:t
+            var parkedVehicle = await _context.ParkedVehicle.FirstOrDefaultAsync(m => m.ParkedVehicleId == id);
+
+            // Om inget fordon hittas med det ID:t, returnera NotFound-resultat
+            if (parkedVehicle == null)
+            {
+                return NotFound();
+            }
+
+            // Skapa en ny ViewModel för kvittot och fyll i information från fordonet
+            var receiptViewModel = new ReceiptViewModel
+            {
+                ParkedVehicleId = parkedVehicle.ParkedVehicleId,
+                VehicleType = parkedVehicle.VehicleType,
+                RegistrationNumber = parkedVehicle.RegistrationNumber,
+                TimeOfArrival = parkedVehicle.TimeOfArrival,
+            };
+
+            // Anropa metoden som sätter avresetid till nuvarande tid
+            receiptViewModel.SetDepartureTime();
+
+
+            // Beräkna tid och pris baserat på pris- och tid
+            receiptViewModel.CalculateTimeAndPrice();
+
+            // Ta bort fordonet från databasen efter att kvittot är generat
+            _context.ParkedVehicle.Remove(parkedVehicle);
+            await _context.SaveChangesAsync();
+
+            // Returnera kvittovyn med den skapade ViewModel
+            return View("Receipt", receiptViewModel);
         }
     }
 }
