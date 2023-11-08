@@ -21,30 +21,59 @@ namespace Garage2.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Search(string RegNo)//TimeOfArrival
+        //public async Task<IActionResult> Search(string RegNo)//TimeOfArrival
+        //{
+        //    var model = _context.ParkedVehicle.Where(e => e.RegistrationNumber.StartsWith(RegNo))
+        //                                 .Select(r => new OverviewViewModel
+        //                                 {
+        //                                     RegistrationNumber = r.RegistrationNumber,
+        //                                     //TimeOfArrival
+        //                                 });
+
+        //    return View(nameof(Index), await model.ToListAsync());
+        //}
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-            var model = _context.ParkedVehicle.Where(e => e.RegistrationNumber.StartsWith(RegNo))
-                                         .Select(r => new OverviewViewModel
-                                         {
-                                            RegistrationNumber=r.RegistrationNumber,
-                                            //TimeOfArrival
-                                         });
+            ViewData["RegistrationNumberSortParm"] = String.IsNullOrEmpty(sortOrder) ? "RegistrationNumber_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["CurrentFilter"] = searchString;
 
-            return View(nameof(Index), await model.ToListAsync());
+            var ParkedVehicle = from s in _context.ParkedVehicle
+                                select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                ParkedVehicle = ParkedVehicle.Where(s => s.RegistrationNumber.Contains(searchString)
+                                       || s.VehicleType.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "RegistrationNumber_desc":
+                    ParkedVehicle = ParkedVehicle.OrderByDescending(s => s.RegistrationNumber);
+                    break;
+                case "Date":
+                    ParkedVehicle = ParkedVehicle.OrderBy(s => s.TimeOfArrival);
+                    break;
+                case "date_desc":
+                    ParkedVehicle = ParkedVehicle.OrderByDescending(s => s.TimeOfArrival);
+                    break;
+                default:
+                    ParkedVehicle = ParkedVehicle.OrderBy(s => s.RegistrationNumber);
+                    break;
+            }
+            return View("Index1", await ParkedVehicle.AsNoTracking().ToListAsync());
         }
-
 
         // GET: ParkedVehicles
-        public async Task<IActionResult> Index()
-        {
-            var model = await _context.ParkedVehicle.Select(v => new OverviewViewModel
-            {
-                ParkedVehicleId = v.ParkedVehicleId,
-                VehicleType = v.VehicleType,
-                RegistrationNumber = v.RegistrationNumber,
-                Make = v.Make,
-                Model = v.Model,
-                Color = v.Color,
+        //public async Task<IActionResult> Index()
+        //{
+        //    var model = await _context.ParkedVehicle.Select(v => new OverviewViewModel
+        //    {
+        //        ParkedVehicleId = v.ParkedVehicleId,
+        //        VehicleType = v.VehicleType,
+        //        RegistrationNumber = v.RegistrationNumber,
+        //        Make = v.Make,
+        //        Model = v.Model,
+        //        Color = v.Color,
 
 
 
@@ -52,16 +81,16 @@ namespace Garage2.Controllers
 
 
 
-            })
+        //    })
 
-               // .Select()
-               .ToListAsync();
+        //       // .Select()
+        //       .ToListAsync();
 
-            //return i list of overviewmodel to the view
+        //    //return i list of overviewmodel to the view
 
-            return View(model);
+        //    return View(model);
 
-        }
+        //}
       
         // GET: ParkedVehicles/Details/5
         public async Task<IActionResult> Details(int? id)
