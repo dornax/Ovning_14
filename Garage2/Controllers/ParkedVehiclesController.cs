@@ -9,6 +9,7 @@ using Garage2.Data;
 using Garage2.Models;
 using Garage2.Models.ViewModels;
 using System.Drawing;
+using Garage2.Migrations;
 
 namespace Garage2.Controllers
 {
@@ -21,35 +22,40 @@ namespace Garage2.Controllers
             _context = context;
         }
 
-        // GET: ParkedVehicles
-        public async Task<IActionResult> Index()
+        
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-            var model = await _context.ParkedVehicle.Select(v => new OverviewViewModel
+            ViewData["RegistrationNumberSortParm"] = String.IsNullOrEmpty(sortOrder) ? "RegistrationNumber_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["CurrentFilter"] = searchString;
+
+            var ParkedVehicle = from s in _context.ParkedVehicle
+                                select s;
+            if (!String.IsNullOrEmpty(searchString))
             {
-                ParkedVehicleId = v.ParkedVehicleId,
-                VehicleType = v.VehicleType,
-                RegistrationNumber = v.RegistrationNumber,
-                Make = v.Make,
-                Model = v.Model,
-                Color = v.Color,
-
-
-
-
-
-
-
-            })
-
-               // .Select()
-               .ToListAsync();
-
-            //return i list of overviewmodel to the view
-
-            return View(model);
-
+                ParkedVehicle = ParkedVehicle.Where(s => s.RegistrationNumber.Contains(searchString));
+                                       //|| s.VehicleType.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "RegistrationNumber_desc":
+                    ParkedVehicle = ParkedVehicle.OrderByDescending(s => s.RegistrationNumber);
+                    break;
+                case "Date":
+                    ParkedVehicle = ParkedVehicle.OrderBy(s => s.TimeOfArrival);
+                    break;
+                case "date_desc":
+                    ParkedVehicle = ParkedVehicle.OrderByDescending(s => s.TimeOfArrival);
+                    break;
+                default:
+                    ParkedVehicle = ParkedVehicle.OrderBy(s => s.RegistrationNumber);
+                    break;
+            }
+            return View("Index", await ParkedVehicle.AsNoTracking().ToListAsync());
         }
 
+        
+      
         // GET: ParkedVehicles/Details/5
         public async Task<IActionResult> Details(int? id)
         {
