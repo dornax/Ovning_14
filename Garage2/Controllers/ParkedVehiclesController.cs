@@ -33,8 +33,8 @@ namespace Garage2.Controllers
                                 select s;
             if (!String.IsNullOrEmpty(searchString))
             {
-                ParkedVehicle = ParkedVehicle.Where(s => s.RegistrationNumber.Contains(searchString)
-                                       || s.VehicleType.Contains(searchString));
+                ParkedVehicle = ParkedVehicle.Where(s => s.RegistrationNumber.Contains(searchString));
+                                       //|| s.VehicleType.Contains(searchString));
             }
             switch (sortOrder)
             {
