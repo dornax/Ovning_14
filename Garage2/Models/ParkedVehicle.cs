@@ -49,7 +49,7 @@ namespace Garage2.Models
 
 
         [DisplayName("Number of wheels")]
-        [Range(0,16)]
+        [Range(0,24)]
         public int? NumberOfWheels { get; set; }
 
 
