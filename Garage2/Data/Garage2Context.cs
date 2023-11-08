@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Garage2.Models;
+using Garage2.Models.Entities;
 
 namespace Garage2.Data
 {
@@ -14,6 +14,7 @@ namespace Garage2.Data
         {
         }
 
+<<<<<<< Updated upstream
         public DbSet<Garage2.Models.ParkedVehicle> ParkedVehicle { get; set; } = default!;
 
     }

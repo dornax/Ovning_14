@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Garage2.Data;
-using Garage2.Models;
 using Garage2.Models.ViewModels;
-using System.Drawing;
-using Garage2.Migrations;
 
 namespace Garage2.Controllers
 {
