@@ -1,17 +1,11 @@
 ﻿@model Garage2.Models.ParkedVehicle
 
-@* @{
-    Layout = null;
+@{
+   
 }
- *@
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Park</title>
-</head>
+
 <body>
 
 <h4>Park Vehicle</h4>
@@ -62,9 +56,9 @@
     </div>
 </div>
 
-<div>
+@* <div>
     <a asp-action="Index">Back to List</a>
-</div>
+</div> *@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

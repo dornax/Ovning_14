@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Garage2.Data;
 using Garage2.Models;
+using System.Drawing;
+using Garage2.Models.ViewModels;
 
 namespace Garage2.Controllers
 {
@@ -22,9 +24,9 @@ namespace Garage2.Controllers
         // GET: ParkedVehicles
         public async Task<IActionResult> Index()
         {
-              return _context.ParkedVehicle != null ? 
-                          View(await _context.ParkedVehicle.ToListAsync()) :
-                          Problem("Entity set 'Garage2Context.ParkedVehicle'  is null.");
+            return _context.ParkedVehicle != null ?
+                        View(await _context.ParkedVehicle.ToListAsync()) :
+                        Problem("Entity set 'Garage2Context.ParkedVehicle'  is null.");
         }
 
         // GET: ParkedVehicles/Details/5
@@ -62,12 +64,39 @@ namespace Garage2.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(parkedVehicle);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Park));
+
+                //if (await _context.ParkedVehicle.AnyAsync(v => v.RegistrationNumber == parkedVehicle.RegistrationNumber))
+                if (await DoesRegNoExistsAsync(parkedVehicle.RegistrationNumber))
+                {
+                    ModelState.AddModelError("RegistrationNumber", "Vehicle is alredy in the garage.");
+                }
+                else
+                {
+                    parkedVehicle.TimeOfArrival = DateTime.Now;
+                    _context.Add(parkedVehicle);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
             return View(parkedVehicle);
         }
+
+        [AcceptVerbs("GET", "POST")]
+        public async Task<IActionResult> IsRegNoAvailable(string registrationNumber)
+        {
+            if (await DoesRegNoExistsAsync(registrationNumber))
+            {
+                return Json(false);
+            }
+
+            return Json(true);
+        }
+
+        private async Task<bool> DoesRegNoExistsAsync(string registrationNumber)
+        {
+            return await _context.ParkedVehicle.AnyAsync(v => v.RegistrationNumber == registrationNumber);
+        }
+
 
 
         // POST: ParkedVehicles/Create
@@ -79,8 +108,8 @@ namespace Garage2.Controllers
         {
             if (ModelState.IsValid)
             {
-                parkedVehicle.TimeOfArrival = DateTime.Now;
                 _context.Add(parkedVehicle);
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -95,7 +124,19 @@ namespace Garage2.Controllers
                 return NotFound();
             }
 
-            var parkedVehicle = await _context.ParkedVehicle.FindAsync(id);
+            var parkedVehicle = await _context.ParkedVehicle.Select(v => new EditViewModel
+            {
+                ParkedVehicleId = v.ParkedVehicleId,
+                RegistrationNumber = v.RegistrationNumber,
+                VehicleType = v.VehicleType,
+                ExistingRegNo = v.RegistrationNumber,
+                Make = v.Make,
+                Model = v.Model,
+                Year = v.Year,
+                Color = v.Color,
+                NumberOfWheels = v.NumberOfWheels
+            }).FirstOrDefaultAsync(v => v.ParkedVehicleId == id);
+
             if (parkedVehicle == null)
             {
                 return NotFound();
@@ -108,7 +149,8 @@ namespace Garage2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ParkedVehicleId,VehicleType,RegistrationNumber,Make,Model,Year,Color,NumberOfWheels")] ParkedVehicle parkedVehicle)
+        //public async Task<IActionResult> Edit(int id, [Bind("ParkedVehicleId,VehicleType,RegistrationNumber,Make,Model,Year,Color,NumberOfWheels")] ParkedVehicle parkedVehicle)
+        public async Task<IActionResult> Edit(int id, EditViewModel parkedVehicle)
         {
             if (id != parkedVehicle.ParkedVehicleId)
             {
@@ -119,9 +161,51 @@ namespace Garage2.Controllers
             {
                 try
                 {
-                    _context.Update(parkedVehicle);
-                    _context.Entry(parkedVehicle).Property(v => v.TimeOfArrival).IsModified = false;
-                    await _context.SaveChangesAsync();
+                    if (parkedVehicle.RegistrationNumber == parkedVehicle.ExistingRegNo)
+                    {
+                        var v = new ParkedVehicle
+                        {
+                            ParkedVehicleId = parkedVehicle.ParkedVehicleId,
+                            VehicleType = parkedVehicle.VehicleType,
+                            RegistrationNumber = parkedVehicle.RegistrationNumber,
+                            Make = parkedVehicle.Make,
+                            Model = parkedVehicle.Model,
+                            Year = parkedVehicle.Year,
+                            Color = parkedVehicle.Color,
+                            NumberOfWheels = parkedVehicle.NumberOfWheels
+                        };
+                        _context.Update(v);
+                        _context.Entry(v).Property(v => v.TimeOfArrival).IsModified = false;
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        if (await DoesRegNoExistsAsync(parkedVehicle.RegistrationNumber))
+                        {
+
+                            ModelState.AddModelError("RegistrationNumber", "Vehicle is alredy in the garage.");
+                        }
+                        else
+                        {
+                            var v = new ParkedVehicle
+                            {
+                                ParkedVehicleId = parkedVehicle.ParkedVehicleId,
+                                VehicleType = parkedVehicle.VehicleType,
+                                RegistrationNumber = parkedVehicle.RegistrationNumber,
+                                Make = parkedVehicle.Make,
+                                Model = parkedVehicle.Model,
+                                Year = parkedVehicle.Year,
+                                Color = parkedVehicle.Color,
+                                NumberOfWheels = parkedVehicle.NumberOfWheels
+                            };
+                            _context.Update(v);
+                            _context.Entry(v).Property(v => v.TimeOfArrival).IsModified = false;
+                            await _context.SaveChangesAsync();
+                            return RedirectToAction(nameof(Index));
+                        }
+
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -134,7 +218,9 @@ namespace Garage2.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+               
+
             }
             return View(parkedVehicle);
         }
@@ -171,14 +257,14 @@ namespace Garage2.Controllers
             {
                 _context.ParkedVehicle.Remove(parkedVehicle);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ParkedVehicleExists(int id)
         {
-          return (_context.ParkedVehicle?.Any(e => e.ParkedVehicleId == id)).GetValueOrDefault();
+            return (_context.ParkedVehicle?.Any(e => e.ParkedVehicleId == id)).GetValueOrDefault();
         }
     }
 }
