@@ -1,4 +1,4 @@
-﻿using Garage2.Models.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -21,7 +21,7 @@ namespace Garage2.Models
         [Remote(action: "IsRegNoAvailable", controller: "ParkedVehicles", ErrorMessage = "Vehicle is already parked in the garage.")]
         [RegularExpression(@"^[A-Za-z]{3}\d{3}$", ErrorMessage = "Registration number must consist of 6 characters, 3 letters followed by 3 digits.")]
         [StringLength(6)]
-        public string RegistrationNumber { get; set;} = string.Empty;
+        public string RegistrationNumber { get; set; } = string.Empty;
 
 
         [StringLength(25)]
@@ -43,12 +43,12 @@ namespace Garage2.Models
 
 
         [DisplayName("Number of wheels")]
-        [Range(0,16)]
+        [Range(0, 16)]
         public int? NumberOfWheels { get; set; }
 
 
         [DisplayName("Time of arrival")]
-        public DateTime TimeOfArrival { get; set; } 
+        public DateTime TimeOfArrival { get; set; }
 
-    } 
+    }
 }
