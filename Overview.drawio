@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-11-03T08:50:46.040Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/119.0" etag="Yia_l5s_Rj1OF6ZaKZre" version="22.0.8" type="github">
+<mxfile host="app.diagrams.net" modified="2023-11-03T15:05:32.040Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/119.0" etag="CyycIvOCNWqzJ3unPKnE" version="22.0.8" type="github">
   <diagram name="Sida-1" id="lpOswOgIRObHjpSG-apg">
-    <mxGraphModel dx="1018" dy="561" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1008" dy="483" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -40,7 +40,7 @@
         <mxCell id="L7MFfvtn7r2if0TggIyE-6" value="Databas" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" parent="1" vertex="1">
           <mxGeometry x="390" y="560" width="60" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="L7MFfvtn7r2if0TggIyE-7" value="Tabell Model&lt;br&gt;(ParkedVehicle)" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;" parent="1" vertex="1">
+        <mxCell id="L7MFfvtn7r2if0TggIyE-7" value="Domain Model&lt;br&gt;(ParkedVehicle)" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;" parent="1" vertex="1">
           <mxGeometry x="360" y="460" width="120" height="80" as="geometry" />
         </mxCell>
         <mxCell id="L7MFfvtn7r2if0TggIyE-8" value="Översikts vy&lt;br&gt;(Lista)" style="shape=process;whiteSpace=wrap;html=1;" parent="1" vertex="1">
