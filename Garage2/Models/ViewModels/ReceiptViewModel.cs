@@ -29,7 +29,7 @@ namespace Garage2.Models.ViewModels
         public string TimeParked { get; set; } = string.Empty;
 
 
-        public void SetDepartureTime() //kanske kalla på denna genom en knapp när man lämnar parkering?
+        public void SetDepartureTime() 
         {
             TimeOfDeparture = DateTime.Now;
         }
