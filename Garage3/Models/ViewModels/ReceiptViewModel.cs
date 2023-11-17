@@ -1,7 +1,7 @@
-﻿using Garage2.Models.Entities;
+﻿using Garage3.Models.Entities;
 using System.ComponentModel;
 
-namespace Garage2.Models.ViewModels
+namespace Garage3.Models.ViewModels
 {
     public class ReceiptViewModel
     {
@@ -29,7 +29,7 @@ namespace Garage2.Models.ViewModels
         public string TimeParked { get; set; } = string.Empty;
 
 
-        public void SetDepartureTime() 
+        public void SetDepartureTime()
         {
             TimeOfDeparture = DateTime.Now;
         }

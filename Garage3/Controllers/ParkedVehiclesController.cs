@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Garage2.Data;
-using Garage2.Models.ViewModels;
+using Garage3.Data;
+using Garage3.Models.ViewModels;
 
-namespace Garage2.Controllers
+namespace Garage3.Controllers
 {
     public class ParkedVehiclesController : Controller
     {
@@ -14,19 +14,19 @@ namespace Garage2.Controllers
             _context = context;
         }
 
-        
+
         public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-            ViewData["RegistrationNumberSortParm"] = String.IsNullOrEmpty(sortOrder) ? "RegistrationNumber_desc" : "";
+            ViewData["RegistrationNumberSortParm"] = string.IsNullOrEmpty(sortOrder) ? "RegistrationNumber_desc" : "";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
             ViewData["CurrentFilter"] = searchString;
 
             var ParkedVehicle = from s in _context.ParkedVehicle
                                 select s;
-            if (!String.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrEmpty(searchString))
             {
                 ParkedVehicle = ParkedVehicle.Where(s => s.RegistrationNumber.Contains(searchString));
-                                       //|| s.VehicleType.Contains(searchString));
+                //|| s.VehicleType.Contains(searchString));
             }
             switch (sortOrder)
             {
@@ -46,8 +46,8 @@ namespace Garage2.Controllers
             return View("Index", await ParkedVehicle.AsNoTracking().ToListAsync());
         }
 
-        
-      
+
+
         // GET: ParkedVehicles/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -238,7 +238,7 @@ namespace Garage2.Controllers
                     }
                 }
 
-               
+
 
             }
             return View(parkedVehicle);

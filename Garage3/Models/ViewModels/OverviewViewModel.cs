@@ -1,8 +1,8 @@
-﻿using Garage2.Models.Entities;
+﻿using Garage3.Models.Entities;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Garage2.Models.ViewModels
+namespace Garage3.Models.ViewModels
 {
     public class OverviewViewModel
     {

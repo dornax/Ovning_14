@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Garage2.Data;
-namespace Garage2
+using Garage3.Data;
+namespace Garage3
 {
     public class Program
     {

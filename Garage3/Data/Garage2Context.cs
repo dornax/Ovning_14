@@ -1,15 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Garage2.Data
+namespace Garage3.Data
 {
     public class Garage2Context : DbContext
     {
-        public Garage2Context (DbContextOptions<Garage2Context> options)
+        public Garage2Context(DbContextOptions<Garage2Context> options)
             : base(options)
         {
         }
 
-        public DbSet<Garage2.Models.ParkedVehicle> ParkedVehicle { get; set; } = default!;
+        public DbSet<ParkedVehicle> ParkedVehicle { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
