@@ -176,5 +176,40 @@ namespace Garage3.Controllers
         {
           return (_db.Vehicles?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+
+
+        //##################################################################################################
+
+
+        // GET: Vehicles/MemberCreate
+        public IActionResult MemberCreate()
+        {
+            //ViewData["MemberId"] = new SelectList(_db.Members, "Id", "Id");
+            //ViewData["ParkingSpaceId"] = new SelectList(_db.ParkingSpaces, "Id", "Id");
+            //ViewData["VehicleTypeId"] = new SelectList(_db.VehicleTypes, "Id", "Id");
+            return View();
+        }
+
+        // POST: Vehicles/MemberCreate
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> MemberCreate([Bind("Id, PersonNo, FirstName, LastName")] Member member)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Add(member);
+                await _db.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            //ViewData["MemberId"] = new SelectList(_db.Members, "Id", "Id", member.MemberId);
+            //ViewData["ParkingSpaceId"] = new SelectList(_db.ParkingSpaces, "Id", "Id", member.ParkingSpaceId);
+            //ViewData["VehicleTypeId"] = new SelectList(_db.VehicleTypes, "Id", "Id", member.VehicleTypeId);
+            return View(member);
+        }
+
+
     }
 }
