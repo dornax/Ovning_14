@@ -48,7 +48,11 @@ namespace Garage3.Models.Entities
         public DateTime TimeOfArrival { get; set; }
 
         public int MemberId { get; set; }
+        public Member Member { get; set; } = new Member();
         public int VehicleTypeId { get; set; }
-        public int ParkingSpaceId { get; set; }
+        public VehicleType Type { get; set; } = new VehicleType(); 
+        
+        public int? ParkingSpaceId { get; set; }
+        public ParkingSpace? ParkingSpace { get; set; }
     }
 }
