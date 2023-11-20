@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Garage3.Data;
 using Garage3.Models.Entities;
+using Garage3.Models.ViewModels;
 
 namespace Garage3.Controllers
 {
@@ -185,9 +186,6 @@ namespace Garage3.Controllers
         // GET: Vehicles/MemberCreate
         public IActionResult MemberCreate()
         {
-            //ViewData["MemberId"] = new SelectList(_db.Members, "Id", "Id");
-            //ViewData["ParkingSpaceId"] = new SelectList(_db.ParkingSpaces, "Id", "Id");
-            //ViewData["VehicleTypeId"] = new SelectList(_db.VehicleTypes, "Id", "Id");
             return View();
         }
 
@@ -202,14 +200,30 @@ namespace Garage3.Controllers
             {
                 _db.Add(member);
                 await _db.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(MembersOverview));
             }
-            //ViewData["MemberId"] = new SelectList(_db.Members, "Id", "Id", member.MemberId);
-            //ViewData["ParkingSpaceId"] = new SelectList(_db.ParkingSpaces, "Id", "Id", member.ParkingSpaceId);
-            //ViewData["VehicleTypeId"] = new SelectList(_db.VehicleTypes, "Id", "Id", member.VehicleTypeId);
             return View(member);
         }
 
 
+
+        //##################################################################################################
+
+
+
+
+        // GET: MembersOverview
+        public async Task<IActionResult> MembersOverview()
+        {
+            var model = _db.Members.Select(m => new MemberShowViewModel 
+                                    { 
+                                        Id = m.Id,
+                                        PersonNo = m.PersonNo,
+                                        FirstName = m.FirstName,
+                                        LastName = m.LastName,
+                                        NoOfVehicles = m.Vehicles.Select(v => new { v.Id,}).Count()
+                                    });
+            return View(await model.ToListAsync());
+        }
     }
 }
