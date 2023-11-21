@@ -21,7 +21,7 @@ namespace Garage3.Models.ViewModels
 
         [Required]
         [DisplayName("Last name")]
-        [Compare(nameof(FirstName))]
+        //[Compare(nameof(FirstName))]
         public string LastName { get; set; }
     }
 }
