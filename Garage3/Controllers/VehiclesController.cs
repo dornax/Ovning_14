@@ -225,5 +225,26 @@ namespace Garage3.Controllers
                                     });
             return View(await model.ToListAsync());
         }
+
+
+
+        //##################################################################################################
+
+
+
+
+        // GET: MembersOverview
+        public async Task<IActionResult> MemberDetails()
+        {
+            var model = _db.Members.Select(m => new MemberShowViewModel
+            {
+                Id = m.Id,
+                PersonNo = m.PersonNo,
+                FirstName = m.FirstName,
+                LastName = m.LastName,
+                Vehicles = m.Vehicles.Select(v => Vehicle {v.MemberId == m.Id })
+            });
+            return View(await model.ToListAsync());
+        }
     }
 }
