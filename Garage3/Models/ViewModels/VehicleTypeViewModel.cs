@@ -1,4 +1,6 @@
-﻿namespace Garage3.Models.ViewModels
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace Garage3.Models.ViewModels
 {
     public class VehicleTypeViewModel
     {
