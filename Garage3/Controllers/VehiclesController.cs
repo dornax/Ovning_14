@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Garage3.Data;
 using Garage3.Models.Entities;
+using Microsoft.Identity.Client;
+using Garage3.Models.ViewModels;
 
 namespace Garage3.Controllers
 {
@@ -176,5 +178,70 @@ namespace Garage3.Controllers
         {
           return (_context.Vehicles?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+        //Hämtar alla fordonstyper från databasen och skapar en lista av ViewModel-objekt
+        public async Task<IActionResult> ListVehicleTypes()
+        {
+            var vehicleTypes = await _context.VehicleTypes.ToListAsync();
+            var viewModelList = new List<VehicleTypeViewModel>();
+
+            // Loopar igenom varje fordonstyp och skapar ett VehicleTypeViewModel-objekt för varje typ.
+            // Därefter läggs varje skapat objekt till i listan för att användas i vyn.
+            foreach (var vt in vehicleTypes)
+            {
+                var viewModel = new VehicleTypeViewModel
+                {
+                    Id = vt.Id,
+                    Type = vt.Type,
+                    Quantity = GetQuantityForVehicleType(vt.Id)
+                };
+                viewModelList.Add(viewModel);
+            }
+            //Skickar listan av ViewModel-objekt till vyn
+            return View(viewModelList);
+        }
+
+        public IActionResult CreateVehicleType()
+        {
+            
+            return View();
+        
+        }
+
+       public int GetQuantityForVehicleType(int vehicleTypeId)
+        {
+            //hämtar fordonstypen från databasen inklusive dess fordon
+            var vehicleType = _context.VehicleTypes
+                .Include(vt => vt.Vehicles) // Inkluderar fordonen för att kunna räkna dem
+                .FirstOrDefault(vt => vt.Id == vehicleTypeId);
+
+            if(vehicleType == null) // Om fordonstypen inte finns, returnera 0
+            {
+                return 0;
+            }
+            
+            ////Räknar antalet fordon i samlingen för den här fordonstypen
+            return vehicleType.Vehicles.Count;
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateVehicleType([Bind("Type")] VehicleType vehicleType)
+        {
+            if(_context.VehicleTypes.Any(vt => vt.Type == vehicleType.Type))
+            {
+                ModelState.AddModelError("Type", "Type already exists.");
+                return View(vehicleType);
+            }
+            if (ModelState.IsValid)
+            {
+                _context.Add(vehicleType);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(ListVehicleTypes));
+            }
+           
+            return View(vehicleType);
+        }
+
+
     }
 }
