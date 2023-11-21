@@ -184,7 +184,7 @@ namespace Garage3.Controllers
 
 
         // GET: Vehicles/MemberCreate
-        public IActionResult MemberCreate()
+        public IActionResult X_MemberCreate()
         {
             return View();
         }
@@ -194,13 +194,13 @@ namespace Garage3.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> MemberCreate([Bind("Id, PersonNo, FirstName, LastName")] Member member)
+        public async Task<IActionResult> X_MemberCreate([Bind("Id, PersonNo, FirstName, LastName")] Member member)
         {
             if (ModelState.IsValid)
             {
                 _db.Add(member);
                 await _db.SaveChangesAsync();
-                return RedirectToAction(nameof(MembersOverview));
+                return RedirectToAction(nameof(X_MembersOverview));
             }
             return View(member);
         }
@@ -213,7 +213,7 @@ namespace Garage3.Controllers
 
 
         // GET: MembersOverview
-        public async Task<IActionResult> MembersOverview()
+        public async Task<IActionResult> X_MembersOverview()
         {
             var model = _db.Members.Select(m => new MemberShowViewModel 
                                     { 
@@ -234,9 +234,9 @@ namespace Garage3.Controllers
 
 
         // GET: MemberDetails
-        public async Task<IActionResult> MemberDetails(int? id)
+        public async Task<IActionResult> X_MemberDetails(int? id)
         {
-            var model = await _db.Members.Select(m => new MemberShowViewModel
+            var member = await _db.Members.Select(m => new MemberShowViewModel
             {
                 Id = m.Id,
                 PersonNo = m.PersonNo,
@@ -255,7 +255,7 @@ namespace Garage3.Controllers
                 })
             }).FirstOrDefaultAsync(m => m.Id == id);
 
-            return View(model);
+            return View(member);
         }
 
 
@@ -266,9 +266,9 @@ namespace Garage3.Controllers
 
 
         // GET: MemberEdit
-        public async Task<IActionResult> MemberEdit(int? id)
+        public async Task<IActionResult> X_MemberEdit(int? id)
         {
-            var model = await _db.Members.Select(m => new MembersEditNewViewModel
+            var member = await _db.Members.Select(m => new MembersEditNewViewModel
             {
                 Id = m.Id,
                 PersonNo = m.PersonNo,
@@ -276,7 +276,7 @@ namespace Garage3.Controllers
                 LastName = m.LastName,
             }).FirstOrDefaultAsync(m => m.Id == id);
 
-            return View(model);
+            return View(member);
         }
 
 
@@ -286,7 +286,7 @@ namespace Garage3.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> MemberEdit(int id, [Bind("Id, PersonNo, FirstName, LastName")] Member member)
+        public async Task<IActionResult> X_MemberEdit(int id, [Bind("Id, PersonNo, FirstName, LastName")] Member member)
         {
             if (id != member.Id)
             {
@@ -311,7 +311,7 @@ namespace Garage3.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(MembersOverview));
+                return RedirectToAction(nameof(X_MembersOverview));
             }
             return View(member);
         }
