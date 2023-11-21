@@ -234,17 +234,19 @@ namespace Garage3.Controllers
 
 
         // GET: MembersOverview
-        public async Task<IActionResult> MemberDetails()
+        public async Task<IActionResult> MemberDetails(int? id)
         {
-            var model = _db.Members.Select(m => new MemberShowViewModel
+            var model = await _db.Members.Select(m => new MemberShowViewModel
             {
                 Id = m.Id,
                 PersonNo = m.PersonNo,
                 FirstName = m.FirstName,
                 LastName = m.LastName,
-                Vehicles = m.Vehicles.Select(v => Vehicle {v.MemberId == m.Id })
-            });
-            return View(await model.ToListAsync());
+                NoOfVehicles = m.Vehicles.Select(v => new { v.Id, }).Count()//,
+                //Vehicles = m.Vehicles.Select(v => new Vehicle {v.MemberId == Id})
+            }).FirstOrDefaultAsync(m => m.Id == id);
+
+            return View(model);
         }
     }
 }
