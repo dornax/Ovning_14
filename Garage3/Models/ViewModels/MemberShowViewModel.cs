@@ -19,7 +19,7 @@ namespace Garage3.Models.ViewModels
 
         [DisplayName("Last name")]
         public string LastName { get; set; }
-        public ICollection<Vehicle> Vehicles { get; set; }
+        public IEnumerable<MemberOwnedVehiclesViewModel> Vehicles { get; set; }
 
 
         [DisplayName("Number of vehicles")]

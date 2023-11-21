@@ -14,7 +14,7 @@ namespace Garage3.Models.ViewModels
         public string Make { get; set; }
         public string Model { get; set; }
         public int? Year { get; set; }
-        public string? Color { get; set; }
+        public string Color { get; set; }
         [DisplayName("Number of wheels")]
         public int? NumberOfWheels { get; set; }
         [DisplayName("Time of arrival")]
@@ -23,6 +23,6 @@ namespace Garage3.Models.ViewModels
         public int VehicleTypeId { get; set; }
         public VehicleType Type { get; set; }
         public int? ParkingSpaceId { get; set; }
-        public ParkingSpace? ParkingSpace { get; set; }
+        public ParkingSpace ParkingSpace { get; set; }
     }
 }

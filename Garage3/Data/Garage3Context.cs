@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Garage3.Models.ViewModels;
 
 namespace Garage3.Data
 {
@@ -21,5 +22,9 @@ namespace Garage3.Data
             base.OnModelCreating(modelBuilder);
 
         }
+
+
+
+        public DbSet<Garage3.Models.ViewModels.MembersEditNewViewModel> MembersEditNewViewModel { get; set; } = default!;
     }
 }

@@ -233,7 +233,7 @@ namespace Garage3.Controllers
 
 
 
-        // GET: MembersOverview
+        // GET: MemberDetails
         public async Task<IActionResult> MemberDetails(int? id)
         {
             var model = await _db.Members.Select(m => new MemberShowViewModel
@@ -242,11 +242,78 @@ namespace Garage3.Controllers
                 PersonNo = m.PersonNo,
                 FirstName = m.FirstName,
                 LastName = m.LastName,
-                NoOfVehicles = m.Vehicles.Select(v => new { v.Id, }).Count()//,
-                //Vehicles = m.Vehicles.Select(v => new Vehicle {v.MemberId == Id})
+                NoOfVehicles = m.Vehicles.Select(v => new { v.Id, }).Count(),
+                Vehicles = m.Vehicles.Select(v => new MemberOwnedVehiclesViewModel 
+                {
+                    Id = v.Id,
+                    RegistrationNo = v.RegistrationNo,
+                    Make = v.Make,
+                    Model = v.Model,
+                    Year = v.Year,
+                    Color = v.Color,
+                    NumberOfWheels = v.NumberOfWheels,
+                })
             }).FirstOrDefaultAsync(m => m.Id == id);
 
             return View(model);
+        }
+
+
+
+        //##################################################################################################
+
+
+
+
+        // GET: MemberEdit
+        public async Task<IActionResult> MemberEdit(int? id)
+        {
+            var model = await _db.Members.Select(m => new MembersEditNewViewModel
+            {
+                Id = m.Id,
+                PersonNo = m.PersonNo,
+                FirstName = m.FirstName,
+                LastName = m.LastName,
+            }).FirstOrDefaultAsync(m => m.Id == id);
+
+            return View(model);
+        }
+
+
+
+        // POST: Vehicles/MemberEdit
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> MemberEdit(int id, [Bind("Id, PersonNo, FirstName, LastName")] Member member)
+        {
+            if (id != member.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _db.Update(member);
+                    await _db.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!VehicleExists(member.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(MembersOverview));
+            }
+            return View(member);
         }
     }
 }
