@@ -7,34 +7,35 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Garage3.Data;
 using Garage3.Models.Entities;
+using Garage3.Models.ViewModels;
 
 namespace Garage3.Controllers
 {
     public class VehiclesController : Controller
     {
-        private readonly Garage3Context _context;
+        private readonly Garage3Context _db;
 
         public VehiclesController(Garage3Context context)
         {
-            _context = context;
+            _db = context;
         }
 
         // GET: Vehicles
         public async Task<IActionResult> Index()
         {
-            var garage3Context = _context.Vehicles.Include(v => v.Member).Include(v => v.ParkingSpace).Include(v => v.Type);
+            var garage3Context = _db.Vehicles.Include(v => v.Member).Include(v => v.ParkingSpace).Include(v => v.Type);
             return View(await garage3Context.ToListAsync());
         }
 
         // GET: Vehicles/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Vehicles == null)
+            if (id == null || _db.Vehicles == null)
             {
                 return NotFound();
             }
 
-            var vehicle = await _context.Vehicles
+            var vehicle = await _db.Vehicles
                 .Include(v => v.Member)
                 .Include(v => v.ParkingSpace)
                 .Include(v => v.Type)
@@ -50,9 +51,9 @@ namespace Garage3.Controllers
         // GET: Vehicles/Create
         public IActionResult Create()
         {
-            ViewData["MemberId"] = new SelectList(_context.Members, "Id", "Id");
-            ViewData["ParkingSpaceId"] = new SelectList(_context.ParkingSpaces, "Id", "Id");
-            ViewData["VehicleTypeId"] = new SelectList(_context.VehicleTypes, "Id", "Id");
+            ViewData["MemberId"] = new SelectList(_db.Members, "Id", "Id");
+            ViewData["ParkingSpaceId"] = new SelectList(_db.ParkingSpaces, "Id", "Id");
+            ViewData["VehicleTypeId"] = new SelectList(_db.VehicleTypes, "Id", "Id");
             return View();
         }
 
@@ -65,32 +66,32 @@ namespace Garage3.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(vehicle);
-                await _context.SaveChangesAsync();
+                _db.Add(vehicle);
+                await _db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MemberId"] = new SelectList(_context.Members, "Id", "Id", vehicle.MemberId);
-            ViewData["ParkingSpaceId"] = new SelectList(_context.ParkingSpaces, "Id", "Id", vehicle.ParkingSpaceId);
-            ViewData["VehicleTypeId"] = new SelectList(_context.VehicleTypes, "Id", "Id", vehicle.VehicleTypeId);
+            ViewData["MemberId"] = new SelectList(_db.Members, "Id", "Id", vehicle.MemberId);
+            ViewData["ParkingSpaceId"] = new SelectList(_db.ParkingSpaces, "Id", "Id", vehicle.ParkingSpaceId);
+            ViewData["VehicleTypeId"] = new SelectList(_db.VehicleTypes, "Id", "Id", vehicle.VehicleTypeId);
             return View(vehicle);
         }
 
         // GET: Vehicles/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Vehicles == null)
+            if (id == null || _db.Vehicles == null)
             {
                 return NotFound();
             }
 
-            var vehicle = await _context.Vehicles.FindAsync(id);
+            var vehicle = await _db.Vehicles.FindAsync(id);
             if (vehicle == null)
             {
                 return NotFound();
             }
-            ViewData["MemberId"] = new SelectList(_context.Members, "Id", "Id", vehicle.MemberId);
-            ViewData["ParkingSpaceId"] = new SelectList(_context.ParkingSpaces, "Id", "Id", vehicle.ParkingSpaceId);
-            ViewData["VehicleTypeId"] = new SelectList(_context.VehicleTypes, "Id", "Id", vehicle.VehicleTypeId);
+            ViewData["MemberId"] = new SelectList(_db.Members, "Id", "Id", vehicle.MemberId);
+            ViewData["ParkingSpaceId"] = new SelectList(_db.ParkingSpaces, "Id", "Id", vehicle.ParkingSpaceId);
+            ViewData["VehicleTypeId"] = new SelectList(_db.VehicleTypes, "Id", "Id", vehicle.VehicleTypeId);
             return View(vehicle);
         }
 
@@ -110,8 +111,8 @@ namespace Garage3.Controllers
             {
                 try
                 {
-                    _context.Update(vehicle);
-                    await _context.SaveChangesAsync();
+                    _db.Update(vehicle);
+                    await _db.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -126,21 +127,21 @@ namespace Garage3.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MemberId"] = new SelectList(_context.Members, "Id", "Id", vehicle.MemberId);
-            ViewData["ParkingSpaceId"] = new SelectList(_context.ParkingSpaces, "Id", "Id", vehicle.ParkingSpaceId);
-            ViewData["VehicleTypeId"] = new SelectList(_context.VehicleTypes, "Id", "Id", vehicle.VehicleTypeId);
+            ViewData["MemberId"] = new SelectList(_db.Members, "Id", "Id", vehicle.MemberId);
+            ViewData["ParkingSpaceId"] = new SelectList(_db.ParkingSpaces, "Id", "Id", vehicle.ParkingSpaceId);
+            ViewData["VehicleTypeId"] = new SelectList(_db.VehicleTypes, "Id", "Id", vehicle.VehicleTypeId);
             return View(vehicle);
         }
 
         // GET: Vehicles/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Vehicles == null)
+            if (id == null || _db.Vehicles == null)
             {
                 return NotFound();
             }
 
-            var vehicle = await _context.Vehicles
+            var vehicle = await _db.Vehicles
                 .Include(v => v.Member)
                 .Include(v => v.ParkingSpace)
                 .Include(v => v.Type)
@@ -158,23 +159,71 @@ namespace Garage3.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Vehicles == null)
+            if (_db.Vehicles == null)
             {
                 return Problem("Entity set 'Garage3Context.Vehicles'  is null.");
             }
-            var vehicle = await _context.Vehicles.FindAsync(id);
+            var vehicle = await _db.Vehicles.FindAsync(id);
             if (vehicle != null)
             {
-                _context.Vehicles.Remove(vehicle);
+                _db.Vehicles.Remove(vehicle);
             }
             
-            await _context.SaveChangesAsync();
+            await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool VehicleExists(int id)
         {
-          return (_context.Vehicles?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_db.Vehicles?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+
+
+        //##################################################################################################
+
+
+        // GET: Vehicles/MemberCreate
+        public IActionResult MemberCreate()
+        {
+            return View();
+        }
+
+        // POST: Vehicles/MemberCreate
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> MemberCreate([Bind("Id, PersonNo, FirstName, LastName")] Member member)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Add(member);
+                await _db.SaveChangesAsync();
+                return RedirectToAction(nameof(MembersOverview));
+            }
+            return View(member);
+        }
+
+
+
+        //##################################################################################################
+
+
+
+
+        // GET: MembersOverview
+        public async Task<IActionResult> MembersOverview()
+        {
+            var model = _db.Members.Select(m => new MemberShowViewModel 
+                                    { 
+                                        Id = m.Id,
+                                        PersonNo = m.PersonNo,
+                                        FirstName = m.FirstName,
+                                        LastName = m.LastName,
+                                        NoOfVehicles = m.Vehicles.Select(v => new { v.Id,}).Count()
+                                    });
+            return View(await model.ToListAsync());
         }
     }
 }
