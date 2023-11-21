@@ -10,7 +10,7 @@ namespace Garage3.Models.ViewModels
 
 
         [Required]
-        [DisplayName("Social security number")]
+        [DisplayName("Person number")]
         public string PersonNo { get; set; }
 
 
