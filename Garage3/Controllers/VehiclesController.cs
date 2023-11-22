@@ -236,7 +236,7 @@ namespace Garage3.Controllers
 
         public async Task<IActionResult> Sorting(string sortOrder,string searching)
         {
-            // ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+           
 
             var members = _db.Members.AsNoTracking()
                
@@ -249,7 +249,7 @@ namespace Garage3.Controllers
                     NoOfVehicles = m.Vehicles.Count,
                     Vehicles = m.Vehicles
                 });
-            // .ToListAsync();
+            
             
 
             switch (sortOrder)
@@ -262,10 +262,7 @@ namespace Garage3.Controllers
                     members = members.OrderBy(s => s.FirstName);
                     break;
             }
-            //var sortedMembers = await members.ToListAsync();
-
-            //Substring(0, Math.Min(2, s.FirstName.Length))
-
+          
 
             var searchFilterSortViewModel = new SearchFilterSortViewModel
             {
