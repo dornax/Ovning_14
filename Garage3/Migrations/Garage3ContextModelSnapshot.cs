@@ -183,7 +183,11 @@ namespace Garage3.Migrations
                         .WithOne("Vehicles")
                         .HasForeignKey("Garage3.Models.Entities.Vehicle", "ParkingSpaceId");
 
+<<<<<<< HEAD
                     b.HasOne("Garage3.Models.Entities.VehicleType", "Type")
+=======
+                    b.HasOne("Garage3.Models.Entities.VehicleType", "VehicleType")
+>>>>>>> bjorn
                         .WithMany("Vehicles")
                         .HasForeignKey("VehicleTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -193,7 +197,11 @@ namespace Garage3.Migrations
 
                     b.Navigation("ParkingSpace");
 
+<<<<<<< HEAD
                     b.Navigation("Type");
+=======
+                    b.Navigation("VehicleType");
+>>>>>>> bjorn
                 });
 
             modelBuilder.Entity("Garage3.Models.Entities.Member", b =>

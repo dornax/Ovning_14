@@ -8,6 +8,9 @@ namespace Garage3.Models.ViewModels
         public int ParkedVehicleId { get; set; }
 
 
+        //[DisplayName("Vehicle type")]
+        //public VehicleType VehicleType { get; set; }
+
 
         [DisplayName("Registration number")]
         public string RegistrationNumber { get; set; } = string.Empty;
