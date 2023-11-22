@@ -38,69 +38,73 @@
         </dd>
     </dl>
 
+    @{
+        if (Model.Vehicles.Count() > 0)
+        {
 
-    <table class="table">
-        <thead>
-            <tr>
+            <table class="table">
+                <thead>
+                    <tr>
 
-                <th>
-                    @Html.DisplayNameFor(model => model.Vehicles.First().RegistrationNo)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Vehicles.First().Type)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Vehicles.First().Make)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Vehicles.First().Model)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Vehicles.First().Year)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Vehicles.First().Color)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Vehicles.First().NumberOfWheels)
-                </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Vehicles.First().RegistrationNo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Vehicles.First().Type)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Vehicles.First().Make)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Vehicles.First().Model)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Vehicles.First().Year)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Vehicles.First().Color)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Vehicles.First().NumberOfWheels)
+                        </th>
 
 
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var v in Model.Vehicles)
-            {
-                <tr>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var v in Model.Vehicles)
+                    {
+                        <tr>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => v.RegistrationNo)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => v.Type)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => v.Make)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => v.Model)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => v.Year)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => v.Color)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => v.NumberOfWheels)
-                    </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => v.RegistrationNo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => v.Type)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => v.Make)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => v.Model)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => v.Year)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => v.Color)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => v.NumberOfWheels)
+                            </td>
 
-                </tr>
-            }
-        </tbody>
-    </table>
-
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    }
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
