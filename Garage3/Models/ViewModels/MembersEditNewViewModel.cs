@@ -1,4 +1,5 @@
 ﻿#nullable disable
+using Garage3.Validations;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -21,7 +22,7 @@ namespace Garage3.Models.ViewModels
 
         [Required]
         [DisplayName("Last name")]
-        //[Compare(nameof(FirstName))]
+        [DifferentValuesValidation(nameof(FirstName))]
         public string LastName { get; set; }
     }
 }
