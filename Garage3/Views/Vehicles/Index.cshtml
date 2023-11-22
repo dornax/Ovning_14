@@ -13,9 +13,6 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.VehicleType)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.RegistrationNo)
             </th>
             <th>
@@ -51,9 +48,6 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.VehicleType)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.RegistrationNo)
             </td>
