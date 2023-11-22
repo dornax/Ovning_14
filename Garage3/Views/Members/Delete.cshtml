@@ -44,16 +44,25 @@
             <tr>
 
                 <th>
-                    @Html.DisplayNameFor(model => model.Vehicles)
+                    @Html.DisplayNameFor(model => model.Vehicles.First().RegistrationNo)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.FirstName)
+                    @Html.DisplayNameFor(model => model.Vehicles.First().Type)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.LastName)
+                    @Html.DisplayNameFor(model => model.Vehicles.First().Make)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.NoOfVehicles)
+                    @Html.DisplayNameFor(model => model.Vehicles.First().Model)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Vehicles.First().Year)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Vehicles.First().Color)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Vehicles.First().NumberOfWheels)
                 </th>
 
 
