@@ -11,6 +11,7 @@ namespace Garage3.Models.ViewModels
 
         [DisplayName("Registration number")]
         public string RegistrationNo { get; set; }
+        public string Type { get; set; }
         public string Make { get; set; }
         public string Model { get; set; }
         public int? Year { get; set; }
@@ -19,10 +20,8 @@ namespace Garage3.Models.ViewModels
         public int? NumberOfWheels { get; set; }
         [DisplayName("Time of arrival")]
         public DateTime TimeOfArrival { get; set; }
-        public int MemberId { get; set; }
-        public int VehicleTypeId { get; set; }
-        public VehicleType Type { get; set; }
-        public int? ParkingSpaceId { get; set; }
-        public ParkingSpace ParkingSpace { get; set; }
+        //public int MemberId { get; set; }
+        //public int? ParkingSpaceId { get; set; }
+        //public ParkingSpace ParkingSpace { get; set; }
     }
 }

@@ -51,6 +51,7 @@ namespace Garage3.Controllers
                 {
                     Id = v.Id,
                     RegistrationNo = v.RegistrationNo,
+                    Type = v.Type.Type,
                     Make = v.Make,
                     Model = v.Model,
                     Year = v.Year,
@@ -168,6 +169,7 @@ namespace Garage3.Controllers
                 {
                     Id = v.Id,
                     RegistrationNo = v.RegistrationNo,
+                    Type = v.Type.Type,
                     Make = v.Make,
                     Model = v.Model,
                     Year = v.Year,
