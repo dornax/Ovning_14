@@ -24,7 +24,6 @@
   <ItemGroup>
     <Compile Remove="Controllers\HomeController.cs" />
     <Compile Remove="Controllers\ParkedVehiclesController.cs" />
-    <Compile Remove="Models\Entities\VehicleTypes.cs" />
     <Compile Remove="Models\ParkedVehicle.cs" />
   </ItemGroup>
 

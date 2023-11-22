@@ -9,7 +9,7 @@ namespace Garage3.Models.ViewModels
 
 
         [DisplayName("Vehicle type")]
-        public VehicleTypes VehicleType { get; set; }
+        public VehicleType VehicleType { get; set; }
 
 
         [DisplayName("Registration number")]

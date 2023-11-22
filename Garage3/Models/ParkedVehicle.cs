@@ -13,7 +13,7 @@ namespace Garage3.Models
 
         [DisplayName("Vehicle type")]
         [Required]
-        public VehicleTypes VehicleType { get; set; }
+        public VehicleType VehicleType { get; set; }
 
 
         [DisplayName("Registration number")]
