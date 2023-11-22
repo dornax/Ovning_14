@@ -8,10 +8,6 @@ namespace Garage3.Models.Entities
     {
         public  int Id { get; set; }
         
-        [DisplayName("Vehicle type")]
-        [Required]
-        public VehicleTypes VehicleType { get; set; }
-
 
         [DisplayName("Registration number")]
         [Required]

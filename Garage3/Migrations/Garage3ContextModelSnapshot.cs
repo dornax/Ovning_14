@@ -110,9 +110,6 @@ namespace Garage3.Migrations
                     b.Property<DateTime>("TimeOfArrival")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("VehicleType")
-                        .HasColumnType("int");
-
                     b.Property<int>("VehicleTypeId")
                         .HasColumnType("int");
 
@@ -147,6 +144,31 @@ namespace Garage3.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("VehicleTypes");
+                });
+
+            modelBuilder.Entity("Garage3.Models.ViewModels.MembersEditNewViewModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PersonNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MembersEditNewViewModel");
                 });
 
             modelBuilder.Entity("Garage3.Models.Entities.Vehicle", b =>
