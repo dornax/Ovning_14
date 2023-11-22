@@ -24,7 +24,7 @@ namespace Garage3.Controllers
         // GET: Vehicles
         public async Task<IActionResult> Index()
         {
-            var garage3Context = _context.Vehicles.Include(v => v.Member).Include(v => v.ParkingSpace).Include(v => v.VehicleType);
+            var garage3Context = _db.Vehicles.Include(v => v.Member).Include(v => v.ParkingSpace).Include(v => v.VehicleType);
             return View(await garage3Context.ToListAsync());
         }
 
