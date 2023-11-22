@@ -9,6 +9,7 @@ using Garage3.Data;
 using Garage3.Models.Entities;
 using Garage3.Models.ViewModels;
 using System.Text.RegularExpressions;
+using Microsoft.Data.SqlClient;
 
 namespace Garage3.Controllers
 {
@@ -234,7 +235,7 @@ namespace Garage3.Controllers
         }
 
 
-        public async Task<IActionResult> Sorting(string sortOrder,string searching)
+        public async Task<IActionResult> Sorting(string sortOrder  )
         {
            
 
