@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Garage3.Migrations
 {
     [DbContext(typeof(Garage3Context))]
-    [Migration("20231117145547_Init")]
+    [Migration("20231121135059_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -102,7 +102,7 @@ namespace Garage3.Migrations
                     b.Property<int?>("NumberOfWheels")
                         .HasColumnType("int");
 
-                    b.Property<int>("ParkingSpaceId")
+                    b.Property<int?>("ParkingSpaceId")
                         .HasColumnType("int");
 
                     b.Property<string>("RegistrationNo")
@@ -112,9 +112,6 @@ namespace Garage3.Migrations
 
                     b.Property<DateTime>("TimeOfArrival")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("VehicleType")
-                        .HasColumnType("int");
 
                     b.Property<int>("VehicleTypeId")
                         .HasColumnType("int");
@@ -127,7 +124,8 @@ namespace Garage3.Migrations
                     b.HasIndex("MemberId");
 
                     b.HasIndex("ParkingSpaceId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[ParkingSpaceId] IS NOT NULL");
 
                     b.HasIndex("VehicleTypeId");
 
@@ -153,23 +151,27 @@ namespace Garage3.Migrations
 
             modelBuilder.Entity("Garage3.Models.Entities.Vehicle", b =>
                 {
-                    b.HasOne("Garage3.Models.Entities.Member", null)
+                    b.HasOne("Garage3.Models.Entities.Member", "Member")
                         .WithMany("Vehicles")
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Garage3.Models.Entities.ParkingSpace", null)
+                    b.HasOne("Garage3.Models.Entities.ParkingSpace", "ParkingSpace")
                         .WithOne("Vehicles")
-                        .HasForeignKey("Garage3.Models.Entities.Vehicle", "ParkingSpaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Garage3.Models.Entities.Vehicle", "ParkingSpaceId");
 
-                    b.HasOne("Garage3.Models.Entities.VehicleType", null)
+                    b.HasOne("Garage3.Models.Entities.VehicleType", "VehicleType")
                         .WithMany("Vehicles")
                         .HasForeignKey("VehicleTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Member");
+
+                    b.Navigation("ParkingSpace");
+
+                    b.Navigation("VehicleType");
                 });
 
             modelBuilder.Entity("Garage3.Models.Entities.Member", b =>

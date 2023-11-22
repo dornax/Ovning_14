@@ -60,7 +60,6 @@ namespace Garage3.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    VehicleType = table.Column<int>(type: "int", nullable: false),
                     RegistrationNo = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
                     Make = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     Model = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
@@ -70,7 +69,7 @@ namespace Garage3.Migrations
                     TimeOfArrival = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MemberId = table.Column<int>(type: "int", nullable: false),
                     VehicleTypeId = table.Column<int>(type: "int", nullable: false),
-                    ParkingSpaceId = table.Column<int>(type: "int", nullable: false)
+                    ParkingSpaceId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -85,8 +84,7 @@ namespace Garage3.Migrations
                         name: "FK_Vehicles_ParkingSpaces_ParkingSpaceId",
                         column: x => x.ParkingSpaceId,
                         principalTable: "ParkingSpaces",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Vehicles_VehicleTypes_VehicleTypeId",
                         column: x => x.VehicleTypeId,
@@ -104,7 +102,8 @@ namespace Garage3.Migrations
                 name: "IX_Vehicles_ParkingSpaceId",
                 table: "Vehicles",
                 column: "ParkingSpaceId",
-                unique: true);
+                unique: true,
+                filter: "[ParkingSpaceId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Vehicles_VehicleTypeId",
