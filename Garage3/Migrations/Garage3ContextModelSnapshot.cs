@@ -146,31 +146,6 @@ namespace Garage3.Migrations
                     b.ToTable("VehicleTypes");
                 });
 
-            modelBuilder.Entity("Garage3.Models.ViewModels.MembersEditNewViewModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PersonNo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MembersEditNewViewModel");
-                });
-
             modelBuilder.Entity("Garage3.Models.Entities.Vehicle", b =>
                 {
                     b.HasOne("Garage3.Models.Entities.Member", "Member")
@@ -183,11 +158,7 @@ namespace Garage3.Migrations
                         .WithOne("Vehicles")
                         .HasForeignKey("Garage3.Models.Entities.Vehicle", "ParkingSpaceId");
 
-<<<<<<< HEAD
-                    b.HasOne("Garage3.Models.Entities.VehicleType", "Type")
-=======
                     b.HasOne("Garage3.Models.Entities.VehicleType", "VehicleType")
->>>>>>> bjorn
                         .WithMany("Vehicles")
                         .HasForeignKey("VehicleTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -197,11 +168,7 @@ namespace Garage3.Migrations
 
                     b.Navigation("ParkingSpace");
 
-<<<<<<< HEAD
-                    b.Navigation("Type");
-=======
                     b.Navigation("VehicleType");
->>>>>>> bjorn
                 });
 
             modelBuilder.Entity("Garage3.Models.Entities.Member", b =>

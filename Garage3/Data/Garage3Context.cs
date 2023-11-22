@@ -22,9 +22,5 @@ namespace Garage3.Data
             base.OnModelCreating(modelBuilder);
 
         }
-
-
-
-        public DbSet<Garage3.Models.ViewModels.MembersEditNewViewModel> MembersEditNewViewModel { get; set; } = default!;
     }
 }

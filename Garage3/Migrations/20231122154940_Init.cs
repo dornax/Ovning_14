@@ -27,21 +27,6 @@ namespace Garage3.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MembersEditNewViewModel",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PersonNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MembersEditNewViewModel", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ParkingSpaces",
                 columns: table => new
                 {
@@ -129,9 +114,6 @@ namespace Garage3.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "MembersEditNewViewModel");
-
             migrationBuilder.DropTable(
                 name: "Vehicles");
 

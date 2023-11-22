@@ -51,7 +51,7 @@ namespace Garage3.Controllers
                 {
                     Id = v.Id,
                     RegistrationNo = v.RegistrationNo,
-                    Type = v.Type.Type,
+                    Type = v.VehicleType.Type,
                     Make = v.Make,
                     Model = v.Model,
                     Year = v.Year,
@@ -119,7 +119,7 @@ namespace Garage3.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PersonNo,FirstName,LastName")] MembersEditNewViewModel member)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,PersonNo,FirstName,LastName")] Member member)
         {
             if (id != member.Id)
             {
@@ -169,7 +169,7 @@ namespace Garage3.Controllers
                 {
                     Id = v.Id,
                     RegistrationNo = v.RegistrationNo,
-                    Type = v.Type.Type,
+                    Type = v.VehicleType.Type,
                     Make = v.Make,
                     Model = v.Model,
                     Year = v.Year,

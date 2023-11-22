@@ -12,11 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Garage3.Migrations
 {
     [DbContext(typeof(Garage3Context))]
-<<<<<<<< HEAD:Garage3/Migrations/20231122103124_Init.Designer.cs
-    [Migration("20231122103124_Init")]
-========
-    [Migration("20231121135059_Init")]
->>>>>>>> bjorn:Garage3/Migrations/20231121135059_Init.Designer.cs
+    [Migration("20231122154940_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -153,31 +149,6 @@ namespace Garage3.Migrations
                     b.ToTable("VehicleTypes");
                 });
 
-            modelBuilder.Entity("Garage3.Models.ViewModels.MembersEditNewViewModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PersonNo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MembersEditNewViewModel");
-                });
-
             modelBuilder.Entity("Garage3.Models.Entities.Vehicle", b =>
                 {
                     b.HasOne("Garage3.Models.Entities.Member", "Member")
@@ -190,11 +161,7 @@ namespace Garage3.Migrations
                         .WithOne("Vehicles")
                         .HasForeignKey("Garage3.Models.Entities.Vehicle", "ParkingSpaceId");
 
-<<<<<<<< HEAD:Garage3/Migrations/20231122103124_Init.Designer.cs
-                    b.HasOne("Garage3.Models.Entities.VehicleType", "Type")
-========
                     b.HasOne("Garage3.Models.Entities.VehicleType", "VehicleType")
->>>>>>>> bjorn:Garage3/Migrations/20231121135059_Init.Designer.cs
                         .WithMany("Vehicles")
                         .HasForeignKey("VehicleTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -204,11 +171,7 @@ namespace Garage3.Migrations
 
                     b.Navigation("ParkingSpace");
 
-<<<<<<<< HEAD:Garage3/Migrations/20231122103124_Init.Designer.cs
-                    b.Navigation("Type");
-========
                     b.Navigation("VehicleType");
->>>>>>>> bjorn:Garage3/Migrations/20231121135059_Init.Designer.cs
                 });
 
             modelBuilder.Entity("Garage3.Models.Entities.Member", b =>
