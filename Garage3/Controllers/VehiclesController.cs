@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Garage3.Data;
 using Garage3.Models.Entities;
+using Microsoft.Identity.Client;
 using Garage3.Models.ViewModels;
 
 namespace Garage3.Controllers
@@ -23,7 +24,7 @@ namespace Garage3.Controllers
         // GET: Vehicles
         public async Task<IActionResult> Index()
         {
-            var garage3Context = _db.Vehicles.Include(v => v.Member).Include(v => v.ParkingSpace).Include(v => v.Type);
+            var garage3Context = _context.Vehicles.Include(v => v.Member).Include(v => v.ParkingSpace).Include(v => v.VehicleType);
             return View(await garage3Context.ToListAsync());
         }
 
@@ -38,7 +39,7 @@ namespace Garage3.Controllers
             var vehicle = await _db.Vehicles
                 .Include(v => v.Member)
                 .Include(v => v.ParkingSpace)
-                .Include(v => v.Type)
+                .Include(v => v.VehicleType)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (vehicle == null)
             {
@@ -144,7 +145,7 @@ namespace Garage3.Controllers
             var vehicle = await _db.Vehicles
                 .Include(v => v.Member)
                 .Include(v => v.ParkingSpace)
-                .Include(v => v.Type)
+                .Include(v => v.VehicleType)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (vehicle == null)
             {
@@ -315,5 +316,6 @@ namespace Garage3.Controllers
             }
             return View(member);
         }
+
     }
 }
