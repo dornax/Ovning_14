@@ -1,4 +1,6 @@
-﻿namespace Garage3.Models.Entities
+﻿using Garage3.Validations;
+
+namespace Garage3.Models.Entities
 {
     public class Member
     {
