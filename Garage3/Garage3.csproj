@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\ParkedVehicles\**" />
+    <Content Remove="Views\ParkedVehicles\**" />
+    <EmbeddedResource Remove="Views\ParkedVehicles\**" />
+    <None Remove="Views\ParkedVehicles\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Controllers\ParkedVehiclesController.cs" />
   </ItemGroup>
 

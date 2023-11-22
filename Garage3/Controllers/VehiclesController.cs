@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Garage3.Data;
 using Garage3.Models.Entities;
 using Garage3.Models.ViewModels;
+using System.Text.RegularExpressions;
 
 namespace Garage3.Controllers
 {
@@ -215,15 +216,72 @@ namespace Garage3.Controllers
         // GET: MembersOverview
         public async Task<IActionResult> MembersOverview()
         {
-            var model = _db.Members.Select(m => new MemberShowViewModel 
+            var members = await _db.Members.Select(m => new MemberShowViewModel 
                                     { 
                                         Id = m.Id,
                                         PersonNo = m.PersonNo,
                                         FirstName = m.FirstName,
                                         LastName = m.LastName,
                                         NoOfVehicles = m.Vehicles.Select(v => new { v.Id,}).Count()
-                                    });
-            return View(await model.ToListAsync());
+                                    })
+                .ToListAsync();
+
+            var model = new SearchFilterSortViewModel
+            {
+                SearchFilterSortMembers = members
+            };
+            return View(model);
         }
+
+
+        public async Task<IActionResult> Sorting(string sortOrder,string searching)
+        {
+            // ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
+            var members = _db.Members.AsNoTracking()
+               
+                .Select(m => new MemberShowViewModel
+                {
+                    Id = m.Id,
+                    PersonNo = m.PersonNo,
+                    FirstName = m.FirstName,
+                    LastName = m.LastName,
+                    NoOfVehicles = m.Vehicles.Count,
+                    Vehicles = m.Vehicles
+                });
+            // .ToListAsync();
+            
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    members = members.OrderByDescending(s => s.FirstName);
+                    break;
+
+                default:
+                    members = members.OrderBy(s => s.FirstName);
+                    break;
+            }
+            //var sortedMembers = await members.ToListAsync();
+
+            //Substring(0, Math.Min(2, s.FirstName.Length))
+
+
+            var searchFilterSortViewModel = new SearchFilterSortViewModel
+            {
+                SearchFilterSortMembers = await members.ToListAsync(),
+               NameSortParam = string.IsNullOrEmpty(sortOrder) ? "name_desc" : ""
+
+
+        };
+
+            return View("MembersOverview", searchFilterSortViewModel);
+        }
+        
+
+
+
+
+
     }
 }

@@ -1,11 +1,13 @@
-﻿@model IEnumerable<Garage3.Models.ViewModels.MemberShowViewModel>
+﻿@model SearchFilterSortViewModel// IEnumerable<Garage3.Models.ViewModels.MemberShowViewModel>
 
 @{
-    ViewData["Title"] = "Members";
+    ViewData["Title"] = "MemberOverview";
 }
 
 <h1>Members</h1>
 
+  
+<a asp-action="Index">Back to Full List</a>
 <p>
     <a asp-action="MemberCreate">Create New Member</a>
 </p>
@@ -14,24 +16,26 @@
         <tr>
 
             <th>
-                @Html.DisplayNameFor(model => model.PersonNo)
+                @Html.DisplayNameFor(model => model.SearchFilterSortMembers.First().PersonNo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                    <a asp-action="Sorting" asp-route-sortOrder="@Model.NameSortParam"> @Html.DisplayNameFor(model => model.SearchFilterSortMembers.First().FirstName)</a>
             </th>
+           
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Html.DisplayNameFor(model => model.SearchFilterSortMembers.First().LastName)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NoOfVehicles)
-            </th>
+           @*  <th>
+                @Html.DisplayNameFor(model => model.OverViewModel.First().NoOfVehicles)
+            </th> *@
 
             
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model.SearchFilterSortMembers)
+        {
             <tr>
 
 
@@ -44,9 +48,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.LastName)
                 </td>
-                <td>
+               @*  <td>
                     @Html.DisplayFor(modelItem => item.NoOfVehicles)
-                </td>
+                </td> *@
 
                 <td>
                     @* <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
