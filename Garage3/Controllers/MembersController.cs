@@ -21,6 +21,27 @@ namespace Garage3.Controllers
             _db = context;
         }
 
+        public IActionResult Park(int? id)
+
+        {
+            if (id == null || _db.Members == null)
+            {
+                return NotFound();
+            }
+
+            bool garageFreeSpace = _db.ParkingSpaces.Any(p => p.InUse == false);
+
+            if (!garageFreeSpace)
+            {
+                TempData["garageIsFull"] = "No places left in garage.";
+                return RedirectToAction("Index", "Vehicles");
+            }
+
+            TempData["memberId"] = id;
+
+            return RedirectToAction("Park", "Vehicles");
+        }
+
         // GET: Members
         public async Task<IActionResult> Index()
         {
