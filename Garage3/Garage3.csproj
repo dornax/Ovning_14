@@ -7,14 +7,31 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="AutoMapperConfig\**" />
+    <Compile Remove="Views\Home\**" />
     <Compile Remove="Views\ParkedVehicles\**" />
+    <Content Remove="AutoMapperConfig\**" />
+    <Content Remove="Views\Home\**" />
     <Content Remove="Views\ParkedVehicles\**" />
+    <EmbeddedResource Remove="AutoMapperConfig\**" />
+    <EmbeddedResource Remove="Views\Home\**" />
     <EmbeddedResource Remove="Views\ParkedVehicles\**" />
+    <None Remove="AutoMapperConfig\**" />
+    <None Remove="Views\Home\**" />
     <None Remove="Views\ParkedVehicles\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\HomeController.cs" />
     <Compile Remove="Controllers\ParkedVehiclesController.cs" />
+    <Compile Remove="Models\ViewModels\MembersEditNewViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Vehicles\X_MemberCreate.cshtml" />
+    <Content Remove="Views\Vehicles\X_MemberDetails.cshtml" />
+    <Content Remove="Views\Vehicles\X_MemberEdit.cshtml" />
+    <Content Remove="Views\Vehicles\X_MembersOverview.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

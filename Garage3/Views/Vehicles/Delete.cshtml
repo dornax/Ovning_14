@@ -12,12 +12,6 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VehicleType)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VehicleType)
-        </dd>
-        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.RegistrationNo)
         </dt>
         <dd class = "col-sm-10">
@@ -63,19 +57,19 @@
             @Html.DisplayNameFor(model => model.Member)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Member.Id)
+            @Html.DisplayFor(model => model.Member.PersonNo)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Type)
+            @Html.DisplayNameFor(model => model.VehicleType)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Type.Id)
+            @Html.DisplayFor(model => model.VehicleType.Type)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ParkingSpace)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ParkingSpace.Id)
+            @Html.DisplayFor(model => model.ParkingSpace.Name)
         </dd>
     </dl>
     

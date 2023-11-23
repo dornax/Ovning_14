@@ -110,9 +110,6 @@ namespace Garage3.Migrations
                     b.Property<DateTime>("TimeOfArrival")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("VehicleType")
-                        .HasColumnType("int");
-
                     b.Property<int>("VehicleTypeId")
                         .HasColumnType("int");
 
@@ -161,7 +158,7 @@ namespace Garage3.Migrations
                         .WithOne("Vehicles")
                         .HasForeignKey("Garage3.Models.Entities.Vehicle", "ParkingSpaceId");
 
-                    b.HasOne("Garage3.Models.Entities.VehicleType", "Type")
+                    b.HasOne("Garage3.Models.Entities.VehicleType", "VehicleType")
                         .WithMany("Vehicles")
                         .HasForeignKey("VehicleTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -171,7 +168,7 @@ namespace Garage3.Migrations
 
                     b.Navigation("ParkingSpace");
 
-                    b.Navigation("Type");
+                    b.Navigation("VehicleType");
                 });
 
             modelBuilder.Entity("Garage3.Models.Entities.Member", b =>
