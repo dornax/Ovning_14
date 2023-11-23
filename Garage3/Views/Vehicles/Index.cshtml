@@ -52,7 +52,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.VehicleType)
+                @Html.DisplayFor(modelItem => item.VehicleType.Type)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.RegistrationNo)
@@ -76,13 +76,16 @@
                 @Html.DisplayFor(modelItem => item.TimeOfArrival)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Member.Id)
+                @Html.DisplayFor(modelItem => item.Member.PersonNo)
             </td>
+            @* <td>
+                @Html.DisplayFor(modelItem => item.VehicleType.Id)
+            </td> *@
             <td>
                 @Html.DisplayFor(modelItem => item.VehicleType.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ParkingSpace.Id)
+                @Html.DisplayFor(modelItem => item.ParkingSpace.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
