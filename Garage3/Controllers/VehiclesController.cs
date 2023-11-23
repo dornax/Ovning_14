@@ -52,6 +52,8 @@ namespace Garage3.Controllers
                 }
                 else
                 {
+                    Int32.TryParse(TempData["memberId"].ToString(), out int id);
+                    var parkingSpace = await _db.ParkingSpaces.FirstOrDefaultAsync(p => p.InUse == false)!;
                     var vehicle = new Vehicle
                     {
                         VehicleTypeId = viewModel.VehicleTypeId,
@@ -62,12 +64,12 @@ namespace Garage3.Controllers
                         Color = viewModel.Color,
                         NumberOfWheels = viewModel.NumberOfWheels,
                         TimeOfArrival = DateTime.Now,
-                        //MemberId = 
-                        //ParkingSpaceId = 
+                        
                     };
-                    
-                    //var vehicle = _mapper.Map<ParkViewModel>(viewModel);
-                    //vehicle.TimeOfArrival = DateTime.Now;
+                    vehicle.MemberId = id;
+                    vehicle.ParkingSpaceId = parkingSpace.Id;
+
+                    parkingSpace.InUse = true;
                     _db.Add(vehicle);
                     await _db.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
@@ -237,9 +239,13 @@ namespace Garage3.Controllers
             {
                 return Problem("Entity set 'Garage3Context.Vehicles'  is null.");
             }
-            var vehicle = await _db.Vehicles.FindAsync(id);
+            
+            var vehicle = await _db.Vehicles
+               .Include(v => v.ParkingSpace)
+               .FirstOrDefaultAsync(m => m.Id == id);
             if (vehicle != null)
             {
+                vehicle.ParkingSpace.InUse = false;
                 _db.Vehicles.Remove(vehicle);
             }
             
