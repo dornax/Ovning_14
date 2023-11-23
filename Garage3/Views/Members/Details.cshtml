@@ -4,10 +4,9 @@
     ViewData["Title"] = "Member Details";
 }
 
-<h1>Details</h1>
+<h1>Member Details</h1>
 
 <div>
-    <h4>Member</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -98,7 +97,7 @@
                                 @Html.DisplayFor(modelItem => v.NumberOfWheels)
                             </td>
                             <td>
-                                <a asp-controller="Vehicles" asp-action="Details" asp-route-id="@v.Id">Vehicle Details</a>
+                                <a asp-controller="Vehicles" asp-action="Details" asp-route-id="@v.Id">Check out</a>
                             </td>
                         </tr>
                     }
