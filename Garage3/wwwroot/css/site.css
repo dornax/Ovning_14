@@ -13,7 +13,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
-    background-color: #f2f2f2; /* Ljusgrå bakgrundsfärg */
+    background-color: #f2f2f2;
 }
 
 header,
@@ -31,8 +31,17 @@ header,
 .btn-link.nav-link:focus,
 .form-control:focus,
 .form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #ff5733; /* Orange för fokus */
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #ff5733;
 }
+
+.navbar-nav .nav-item .nav-link {
+    color: #000000;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: #ff5733; 
+}
+
 
 a.navbar-brand {
     white-space: normal;
@@ -47,7 +56,7 @@ a.navbar-brand {
 }
 
 a {
-    color: #ff5733;/* Orange för länkar */
+    color: #ff5733;
     padding-top: 5px;
 }
 
@@ -57,14 +66,14 @@ a {
 
 .btn-primary {
     color: #fff;
-    background-color: #001f3f; /* Mörkblå för primärknappar */
+    background-color: #001f3f; 
     border-color: #001f3f;
 }
 
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
     color: #fff;
-    background-color: #001f3f; /* Mörkblå för aktiva länkar i pillmenyn */
+    background-color: #001f3f; 
     border-color: #001f3f;
 }
 
