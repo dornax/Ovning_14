@@ -71,6 +71,9 @@
             @Html.DisplayFor(model => model.ParkingSpace.Name)
         </dd>
     </dl>
+        <form method="post" action="/Vehicles/GenerateReceipt/@Model.Id">
+        <button type="submit" class="btn btn-primary">Leave parking</button>
+    </form>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |

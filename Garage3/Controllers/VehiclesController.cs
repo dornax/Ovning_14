@@ -262,144 +262,6 @@ namespace Garage3.Controllers
         }
 
 
-
-        //##################################################################################################
-
-
-        //// GET: Vehicles/MemberCreate
-        //public IActionResult X_MemberCreate()
-        //{
-        //    return View();
-        //}
-
-        //// POST: Vehicles/MemberCreate
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> X_MemberCreate([Bind("Id, PersonNo, FirstName, LastName")] Member member)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _db.Add(member);
-        //        await _db.SaveChangesAsync();
-        //        return RedirectToAction(nameof(X_MembersOverview));
-        //    }
-        //    return View(member);
-        //}
-
-
-
-        ////##################################################################################################
-
-
-
-
-        //// GET: MembersOverview
-        //public async Task<IActionResult> X_MembersOverview()
-        //{
-        //    var model = _db.Members.Select(m => new MemberShowViewModel 
-        //                            { 
-        //                                Id = m.Id,
-        //                                PersonNo = m.PersonNo,
-        //                                FirstName = m.FirstName,
-        //                                LastName = m.LastName,
-        //                                NoOfVehicles = m.Vehicles.Select(v => new { v.Id,}).Count()
-        //                            });
-        //    return View(await model.ToListAsync());
-        //}
-
-
-
-        ////##################################################################################################
-
-
-
-
-        //// GET: MemberDetails
-        //public async Task<IActionResult> X_MemberDetails(int? id)
-        //{
-        //    var member = await _db.Members.Select(m => new MemberShowViewModel
-        //    {
-        //        Id = m.Id,
-        //        PersonNo = m.PersonNo,
-        //        FirstName = m.FirstName,
-        //        LastName = m.LastName,
-        //        NoOfVehicles = m.Vehicles.Select(v => new { v.Id, }).Count(),
-        //        Vehicles = m.Vehicles.Select(v => new MemberOwnedVehiclesViewModel 
-        //        {
-        //            Id = v.Id,
-        //            RegistrationNo = v.RegistrationNo,
-        //            Make = v.Make,
-        //            Model = v.Model,
-        //            Year = v.Year,
-        //            Color = v.Color,
-        //            NumberOfWheels = v.NumberOfWheels,
-        //        })
-        //    }).FirstOrDefaultAsync(m => m.Id == id);
-
-        //    return View(member);
-        //}
-
-
-
-        ////##################################################################################################
-
-
-
-
-        //// GET: MemberEdit
-        //public async Task<IActionResult> X_MemberEdit(int? id)
-        //{
-        //    var member = await _db.Members.Select(m => new MembersEditNewViewModel
-        //    {
-        //        Id = m.Id,
-        //        PersonNo = m.PersonNo,
-        //        FirstName = m.FirstName,
-        //        LastName = m.LastName,
-        //    }).FirstOrDefaultAsync(m => m.Id == id);
-
-        //    return View(member);
-        //}
-
-
-
-        //// POST: Vehicles/MemberEdit
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> X_MemberEdit(int id, [Bind("Id, PersonNo, FirstName, LastName")] Member member)
-        //{
-        //    if (id != member.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _db.Update(member);
-        //            await _db.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!VehicleExists(member.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(X_MembersOverview));
-        //    }
-        //    return View(member);
-        //}
-
-        // GET: MembersOverview
         public async Task<IActionResult> MembersOverview()
         {
             var members = await _db.Members.Select(m => new MemberShowViewModel 
@@ -460,10 +322,43 @@ namespace Garage3.Controllers
 
             return View("MembersOverview", searchFilterSortViewModel);
         }
-        
 
 
+        public async Task<IActionResult> GenerateReceipt(int id)
+        {
+            // Hitta det parkerade fordonet med det specificerade ID:t
+            var parkedVehicle = await _db.Vehicles
+                .Include(v => v.VehicleType)
+                .FirstOrDefaultAsync(v => v.Id == id);
 
+            // Om inget fordon hittas med det ID:t, returnera NotFound-resultat
+            if (parkedVehicle == null)
+            {
+                return NotFound();
+            }
+
+            // Skapa en ny ViewModel för kvittot och fyll i information från fordonet
+            var receiptViewModel = new ReceiptViewModel
+            {
+                ParkedVehicleId = parkedVehicle.Id,
+                RegistrationNumber = parkedVehicle.RegistrationNo,
+                TimeOfArrival = parkedVehicle.TimeOfArrival,
+                VehicleType = parkedVehicle.VehicleType?.Type 
+            };
+
+            // Anropa metoden som sätter avresetid till nuvarande tid
+            receiptViewModel.SetDepartureTime();
+
+            // Beräkna tid och pris baserat på pris- och tid
+            receiptViewModel.CalculateTimeAndPrice();
+
+            // Ta bort fordonet från databasen efter att kvittot är generat
+            _db.Vehicles.Remove(parkedVehicle);
+            await _db.SaveChangesAsync();
+
+            // Returnera kvittovyn med den skapade ViewModel
+            return View("Receipt", receiptViewModel);
+        }
 
 
     }

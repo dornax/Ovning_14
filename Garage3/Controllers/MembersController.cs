@@ -252,5 +252,6 @@ namespace Garage3.Controllers
         {
           return (_db.Members?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
     }
 }

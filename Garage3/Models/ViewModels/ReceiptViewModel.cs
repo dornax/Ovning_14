@@ -1,4 +1,5 @@
 ﻿using Garage3.Models.Entities;
+using System;
 using System.ComponentModel;
 
 namespace Garage3.Models.ViewModels
@@ -7,18 +8,11 @@ namespace Garage3.Models.ViewModels
     {
         public int ParkedVehicleId { get; set; }
 
-
-        //[DisplayName("Vehicle type")]
-        //public VehicleType VehicleType { get; set; }
-
-
         [DisplayName("Registration number")]
         public string RegistrationNumber { get; set; } = string.Empty;
 
-
         [DisplayName("Time of arrival")]
         public DateTime TimeOfArrival { get; set; } = DateTime.Today;
-
 
         [DisplayName("Time of departure")]
         public DateTime TimeOfDeparture { get; set; } = DateTime.Today;
@@ -28,6 +22,8 @@ namespace Garage3.Models.ViewModels
         [DisplayName("Time parked")]
         public string TimeParked { get; set; } = string.Empty;
 
+        [DisplayName("Vehicle type")]
+        public string VehicleType { get; set; }
 
         public void SetDepartureTime()
         {
@@ -38,9 +34,8 @@ namespace Garage3.Models.ViewModels
         {
             TimeSpan timeParked = TimeOfDeparture - TimeOfArrival;
             TimeParked = timeParked.ToString(@"h\:mm\:ss");
-            //if price is 10 kr per hour.
+            // If the price is 10 kr per hour.
             Price = Math.Round((decimal)timeParked.TotalHours * 10, 2);
         }
-
     }
 }
