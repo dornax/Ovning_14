@@ -6,7 +6,7 @@ namespace Garage3.Models.Entities
     public class ParkingSpace
     {
         public int Id { get; set; }
-        [DisplayName("Parking Space")]
+        [DisplayName("Parking space")]
         [StringLength(20)]
         public string Name { get; set; } = string.Empty;
         [StringLength(20)]
