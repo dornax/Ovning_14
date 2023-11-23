@@ -44,13 +44,12 @@ namespace Garage3.Models.Entities
         public DateTime TimeOfArrival { get; set; }
 
         public int MemberId { get; set; }
-        public Member Member { get; set; } = new Member();
+        public Member Member { get; set; }
         public int VehicleTypeId { get; set; }
-        // public VehicleType Type { get; set; } = new VehicleType(); 
+     
         [DisplayName("Vehicle type")]
         [Required]
-        public VehicleType VehicleType { get; set; } = new VehicleType();
-
+        public VehicleType VehicleType { get; set; }
         public int? ParkingSpaceId { get; set; }
         public ParkingSpace? ParkingSpace { get; set; }
     }
