@@ -9,6 +9,8 @@ using Garage3.Data;
 using Garage3.Models.Entities;
 using Microsoft.Identity.Client;
 using Garage3.Models.ViewModels;
+using System.Text.RegularExpressions;
+using Microsoft.Data.SqlClient;
 
 namespace Garage3.Controllers
 {
@@ -396,6 +398,73 @@ namespace Garage3.Controllers
         //    }
         //    return View(member);
         //}
+
+        // GET: MembersOverview
+        public async Task<IActionResult> MembersOverview()
+        {
+            var members = await _db.Members.Select(m => new MemberShowViewModel 
+                                    { 
+                                        Id = m.Id,
+                                        PersonNo = m.PersonNo,
+                                        FirstName = m.FirstName,
+                                        LastName = m.LastName,
+                                        NoOfVehicles = m.Vehicles.Select(v => new { v.Id,}).Count()
+                                    })
+                .ToListAsync();
+
+            var model = new SearchFilterSortViewModel
+            {
+                SearchFilterSortMembers = members
+            };
+            return View(model);
+        }
+
+
+        public async Task<IActionResult> Sorting(string sortOrder  )
+        {
+           
+
+            var members = _db.Members.AsNoTracking()
+               
+                .Select(m => new MemberShowViewModel
+                {
+                    Id = m.Id,
+                    PersonNo = m.PersonNo,
+                    FirstName = m.FirstName,
+                    LastName = m.LastName,
+                    NoOfVehicles = m.Vehicles.Count,
+                   
+                });
+            
+            
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    members = members.OrderByDescending(s => s.FirstName);
+                    break;
+
+                default:
+                    members = members.OrderBy(s => s.FirstName);
+                    break;
+            }
+          
+
+            var searchFilterSortViewModel = new SearchFilterSortViewModel
+            {
+                SearchFilterSortMembers = await members.ToListAsync(),
+               NameSortParam = string.IsNullOrEmpty(sortOrder) ? "name_desc" : ""
+
+
+        };
+
+            return View("MembersOverview", searchFilterSortViewModel);
+        }
+        
+
+
+
+
 
     }
 }

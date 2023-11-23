@@ -9,6 +9,7 @@ using Garage3.Data;
 using Garage3.Models.Entities;
 using Garage3.Models.ViewModels;
 
+
 namespace Garage3.Controllers
 {
     public class MembersController : Controller
@@ -44,19 +45,60 @@ namespace Garage3.Controllers
         // GET: Members
         public async Task<IActionResult> Index()
         {
-            var model = _db.Members.Select(m => new MemberShowViewModel
+            var members= await _db.Members.Select(m => new MemberShowViewModel
             {
                 Id = m.Id,
                 PersonNo = m.PersonNo,
                 FirstName = m.FirstName,
                 LastName = m.LastName,
                 NoOfVehicles = m.Vehicles.Select(v => new { v.Id, }).Count()
-            });
-
-            return model != null ? 
-                          View(await model.ToListAsync()) :
-                          Problem("Entity set 'Garage3Context.Members'  is null.");
+            })
+             .ToListAsync();
+            var model = new SearchFilterSortViewModel
+            {
+                SearchFilterSortMembers = members
+            };
+            return View(model);
         }
+        public async Task<IActionResult> Sorting(string sortOrder)
+        {
+
+
+            var members = _db.Members.AsNoTracking()
+
+                .Select(m => new MemberShowViewModel
+                {
+                    Id = m.Id,
+                    PersonNo = m.PersonNo,
+                    FirstName = m.FirstName,
+                    LastName = m.LastName,
+                    NoOfVehicles = m.Vehicles.Count,
+                });
+
+
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    members = members.OrderByDescending(s => s.FirstName);
+                    break;
+
+                default:
+                    members = members.OrderBy(s => s.FirstName);
+                    break;
+            }
+
+
+            var searchFilterSortViewModel = new SearchFilterSortViewModel
+            {
+                SearchFilterSortMembers = await members.ToListAsync(),
+                NameSortParam = string.IsNullOrEmpty(sortOrder) ? "name_desc" : ""
+
+
+            };
+            return View("Index", searchFilterSortViewModel);
+        }
+
 
         // GET: Members/Details/5
         public async Task<IActionResult> Details(int? id)
