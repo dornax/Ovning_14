@@ -99,7 +99,7 @@ namespace Garage3.Controllers
                 return NotFound();
             }
 
-            var member = await _db.Members.Select(m => new MembersEditNewViewModel
+            var member = await _db.Members.Select(m => new Member
             {
                 Id = m.Id,
                 PersonNo = m.PersonNo,
@@ -119,7 +119,7 @@ namespace Garage3.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PersonNo,FirstName,LastName")] MembersEditNewViewModel member)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,PersonNo,FirstName,LastName")] Member member)
         {
             if (id != member.Id)
             {

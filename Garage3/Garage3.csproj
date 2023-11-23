@@ -8,6 +8,14 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\ParkedVehiclesController.cs" />
+    <Compile Remove="Models\ViewModels\MembersEditNewViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Vehicles\X_MemberCreate.cshtml" />
+    <Content Remove="Views\Vehicles\X_MemberDetails.cshtml" />
+    <Content Remove="Views\Vehicles\X_MemberEdit.cshtml" />
+    <Content Remove="Views\Vehicles\X_MembersOverview.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

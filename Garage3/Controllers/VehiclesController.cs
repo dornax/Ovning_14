@@ -268,7 +268,7 @@ namespace Garage3.Controllers
         // GET: MemberEdit
         public async Task<IActionResult> X_MemberEdit(int? id)
         {
-            var member = await _db.Members.Select(m => new MembersEditNewViewModel
+            var member = await _db.Members.Select(m => new Member
             {
                 Id = m.Id,
                 PersonNo = m.PersonNo,
