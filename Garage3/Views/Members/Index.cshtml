@@ -11,7 +11,7 @@
     <p>
         <a asp-action="Create">Create New Member</a>
     </p>
-    <table class="table">
+    <table class="table table-striped">
         <thead>
             <tr>
 
@@ -37,8 +37,6 @@
         @foreach (var item in Model.SearchFilterSortMembers)
         {
                 <tr>
-
-
                     <td>
                     @Html.DisplayFor(modelItem => item.PersonNo)
                     </td>
@@ -50,14 +48,14 @@
                     </td>
                     <td>
                     @Html.DisplayFor(modelItem => item.NoOfVehicles)
-                </td>
-            <td>
-                    <a asp-action="Park" asp-route-id="@item.Id">Park</a> |
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                    </td>
+                    <td>
+                        <a asp-action="Park" asp-route-id="@item.Id">Park</a> |
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+        }
+        </tbody>
+    </table>

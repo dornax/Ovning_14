@@ -39,9 +39,9 @@ header,
     color: #000000;
 }
 
-.navbar-nav .nav-item .nav-link:hover {
-    color: #ff5733; 
-}
+    .navbar-nav .nav-item .nav-link:hover {
+        color: #ff5733;
+    }
 
 
 a.navbar-brand {
@@ -67,14 +67,14 @@ a {
 
 .btn-primary {
     color: #fff;
-    background-color: #001f3f; 
+    background-color: #001f3f;
     border-color: #001f3f;
 }
 
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
     color: #fff;
-    background-color: #001f3f; 
+    background-color: #001f3f;
     border-color: #001f3f;
 }
 
@@ -101,4 +101,12 @@ button.accept-policy {
     position: fixed;
     bottom: 0;
     width: 100%;
+}
+
+.table-striped > tbody > :nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.table-striped > tbody > :nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
 }
