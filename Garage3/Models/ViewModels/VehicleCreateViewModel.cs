@@ -1,17 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Garage3.Models.Entities
+namespace Garage3.Models.ViewModels
 {
-    public class Vehicle
+    public class VehicleCreateViewModel
     {
-        public int Id { get; set; }
+
+       
 
 
         [DisplayName("Registration number")]
         [Required]
-        //[Remote(action: "IsRegNoAvailable", controller: "ParkedVehicles", ErrorMessage = "Vehicle is already parked in the garage.")]
+        [Remote(action: "IsRegNoAvailable", controller: "ParkedVehicles", ErrorMessage = "Vehicle is already parked in the garage.")]
         [RegularExpression(@"^[A-Za-z]{3}\d{3}$", ErrorMessage = "Registration number must consist of 6 characters, 3 letters followed by 3 digits.")]
         [StringLength(6)]
         public string RegistrationNo { get; set; } = string.Empty;
@@ -40,17 +42,15 @@ namespace Garage3.Models.Entities
         public int? NumberOfWheels { get; set; }
 
 
-        [DisplayName("Time of arrival")]
-        public DateTime TimeOfArrival { get; set; }
+       
 
         public int MemberId { get; set; }
-        public Member Member { get; set; }
+
+        [Display(Name ="Vehicletype")]
         public int VehicleTypeId { get; set; }
-     
-        [DisplayName("Vehicle type")]
-        [Required]
-        public VehicleType VehicleType { get; set; }
-        public int? ParkingSpaceId { get; set; }
-        public ParkingSpace? ParkingSpace { get; set; }
+
+        public IEnumerable<SelectListItem> MembersSelectList { get; set; } = new List<SelectListItem>();// I SHOULD POPULATE HERE
+        public IEnumerable<SelectListItem> VehicleTypesSelectList { get; set; } = new List<SelectListItem>();//
+
     }
 }

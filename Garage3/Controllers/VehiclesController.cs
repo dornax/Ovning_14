@@ -9,6 +9,8 @@ using Garage3.Data;
 using Garage3.Models.Entities;
 using Microsoft.Identity.Client;
 using Garage3.Models.ViewModels;
+using System.Text.RegularExpressions;
+using Microsoft.Data.SqlClient;
 
 namespace Garage3.Controllers
 {
@@ -53,6 +55,8 @@ namespace Garage3.Controllers
                 }
                 else
                 {
+                    Int32.TryParse(TempData["memberId"].ToString(), out int id);
+                    var parkingSpace = await _db.ParkingSpaces.FirstOrDefaultAsync(p => p.InUse == false)!;
                     var vehicle = new Vehicle
                     {
                         VehicleTypeId = viewModel.VehicleTypeId,
@@ -63,12 +67,12 @@ namespace Garage3.Controllers
                         Color = viewModel.Color,
                         NumberOfWheels = viewModel.NumberOfWheels,
                         TimeOfArrival = DateTime.Now,
-                        //MemberId = 
-                        //ParkingSpaceId = 
+                        
                     };
-                    
-                    //var vehicle = _mapper.Map<ParkViewModel>(viewModel);
-                    //vehicle.TimeOfArrival = DateTime.Now;
+                    vehicle.MemberId = id;
+                    vehicle.ParkingSpaceId = parkingSpace.Id;
+
+                    parkingSpace.InUse = true;
                     _db.Add(vehicle);
                     await _db.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
@@ -238,9 +242,13 @@ namespace Garage3.Controllers
             {
                 return Problem("Entity set 'Garage3Context.Vehicles'  is null.");
             }
-            var vehicle = await _db.Vehicles.FindAsync(id);
+            
+            var vehicle = await _db.Vehicles
+               .Include(v => v.ParkingSpace)
+               .FirstOrDefaultAsync(m => m.Id == id);
             if (vehicle != null)
             {
+                vehicle.ParkingSpace.InUse = false;
                 _db.Vehicles.Remove(vehicle);
             }
             
@@ -390,6 +398,73 @@ namespace Garage3.Controllers
         //    }
         //    return View(member);
         //}
+
+        // GET: MembersOverview
+        public async Task<IActionResult> MembersOverview()
+        {
+            var members = await _db.Members.Select(m => new MemberShowViewModel 
+                                    { 
+                                        Id = m.Id,
+                                        PersonNo = m.PersonNo,
+                                        FirstName = m.FirstName,
+                                        LastName = m.LastName,
+                                        NoOfVehicles = m.Vehicles.Select(v => new { v.Id,}).Count()
+                                    })
+                .ToListAsync();
+
+            var model = new SearchFilterSortViewModel
+            {
+                SearchFilterSortMembers = members
+            };
+            return View(model);
+        }
+
+
+        public async Task<IActionResult> Sorting(string sortOrder  )
+        {
+           
+
+            var members = _db.Members.AsNoTracking()
+               
+                .Select(m => new MemberShowViewModel
+                {
+                    Id = m.Id,
+                    PersonNo = m.PersonNo,
+                    FirstName = m.FirstName,
+                    LastName = m.LastName,
+                    NoOfVehicles = m.Vehicles.Count,
+                   
+                });
+            
+            
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    members = members.OrderByDescending(s => s.FirstName);
+                    break;
+
+                default:
+                    members = members.OrderBy(s => s.FirstName);
+                    break;
+            }
+          
+
+            var searchFilterSortViewModel = new SearchFilterSortViewModel
+            {
+                SearchFilterSortMembers = await members.ToListAsync(),
+               NameSortParam = string.IsNullOrEmpty(sortOrder) ? "name_desc" : ""
+
+
+        };
+
+            return View("MembersOverview", searchFilterSortViewModel);
+        }
+        
+
+
+
+
 
     }
 }
