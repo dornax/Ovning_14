@@ -6,7 +6,7 @@ namespace Garage3.Models.Entities
 {
     public class Vehicle
     {
-        public  int Id { get; set; }
+        public int Id { get; set; }
 
 
         [DisplayName("Registration number")]

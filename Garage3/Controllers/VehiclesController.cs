@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Garage3.Data;
 using Garage3.Models.Entities;
+using Microsoft.Identity.Client;
 using Garage3.Models.ViewModels;
 
 namespace Garage3.Controllers
@@ -251,5 +252,144 @@ namespace Garage3.Controllers
         {
           return (_db.Vehicles?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+
+
+        //##################################################################################################
+
+
+        //// GET: Vehicles/MemberCreate
+        //public IActionResult X_MemberCreate()
+        //{
+        //    return View();
+        //}
+
+        //// POST: Vehicles/MemberCreate
+        //// To protect from overposting attacks, enable the specific properties you want to bind to.
+        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> X_MemberCreate([Bind("Id, PersonNo, FirstName, LastName")] Member member)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _db.Add(member);
+        //        await _db.SaveChangesAsync();
+        //        return RedirectToAction(nameof(X_MembersOverview));
+        //    }
+        //    return View(member);
+        //}
+
+
+
+        ////##################################################################################################
+
+
+
+
+        //// GET: MembersOverview
+        //public async Task<IActionResult> X_MembersOverview()
+        //{
+        //    var model = _db.Members.Select(m => new MemberShowViewModel 
+        //                            { 
+        //                                Id = m.Id,
+        //                                PersonNo = m.PersonNo,
+        //                                FirstName = m.FirstName,
+        //                                LastName = m.LastName,
+        //                                NoOfVehicles = m.Vehicles.Select(v => new { v.Id,}).Count()
+        //                            });
+        //    return View(await model.ToListAsync());
+        //}
+
+
+
+        ////##################################################################################################
+
+
+
+
+        //// GET: MemberDetails
+        //public async Task<IActionResult> X_MemberDetails(int? id)
+        //{
+        //    var member = await _db.Members.Select(m => new MemberShowViewModel
+        //    {
+        //        Id = m.Id,
+        //        PersonNo = m.PersonNo,
+        //        FirstName = m.FirstName,
+        //        LastName = m.LastName,
+        //        NoOfVehicles = m.Vehicles.Select(v => new { v.Id, }).Count(),
+        //        Vehicles = m.Vehicles.Select(v => new MemberOwnedVehiclesViewModel 
+        //        {
+        //            Id = v.Id,
+        //            RegistrationNo = v.RegistrationNo,
+        //            Make = v.Make,
+        //            Model = v.Model,
+        //            Year = v.Year,
+        //            Color = v.Color,
+        //            NumberOfWheels = v.NumberOfWheels,
+        //        })
+        //    }).FirstOrDefaultAsync(m => m.Id == id);
+
+        //    return View(member);
+        //}
+
+
+
+        ////##################################################################################################
+
+
+
+
+        //// GET: MemberEdit
+        //public async Task<IActionResult> X_MemberEdit(int? id)
+        //{
+        //    var member = await _db.Members.Select(m => new MembersEditNewViewModel
+        //    {
+        //        Id = m.Id,
+        //        PersonNo = m.PersonNo,
+        //        FirstName = m.FirstName,
+        //        LastName = m.LastName,
+        //    }).FirstOrDefaultAsync(m => m.Id == id);
+
+        //    return View(member);
+        //}
+
+
+
+        //// POST: Vehicles/MemberEdit
+        //// To protect from overposting attacks, enable the specific properties you want to bind to.
+        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> X_MemberEdit(int id, [Bind("Id, PersonNo, FirstName, LastName")] Member member)
+        //{
+        //    if (id != member.Id)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _db.Update(member);
+        //            await _db.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!VehicleExists(member.Id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(X_MembersOverview));
+        //    }
+        //    return View(member);
+        //}
+
     }
 }
