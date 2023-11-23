@@ -97,7 +97,9 @@
                             <td>
                                 @Html.DisplayFor(modelItem => v.NumberOfWheels)
                             </td>
-
+                            <td>
+                                <a asp-controller="Vehicles" asp-action="Details" asp-route-id="@v.Id">Vehicle Details</a>
+                            </td>
                         </tr>
                     }
                 </tbody>

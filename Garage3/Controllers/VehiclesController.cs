@@ -329,6 +329,7 @@ namespace Garage3.Controllers
             // Hitta det parkerade fordonet med det specificerade ID:t
             var parkedVehicle = await _db.Vehicles
                 .Include(v => v.VehicleType)
+                .Include(v => v.ParkingSpace)  // Lägg till inkludering av ParkingSpace
                 .FirstOrDefaultAsync(v => v.Id == id);
 
             // Om inget fordon hittas med det ID:t, returnera NotFound-resultat
@@ -343,7 +344,7 @@ namespace Garage3.Controllers
                 ParkedVehicleId = parkedVehicle.Id,
                 RegistrationNumber = parkedVehicle.RegistrationNo,
                 TimeOfArrival = parkedVehicle.TimeOfArrival,
-                VehicleType = parkedVehicle.VehicleType?.Type 
+                VehicleType = parkedVehicle.VehicleType.Type
             };
 
             // Anropa metoden som sätter avresetid till nuvarande tid
@@ -352,13 +353,19 @@ namespace Garage3.Controllers
             // Beräkna tid och pris baserat på pris- och tid
             receiptViewModel.CalculateTimeAndPrice();
 
-            // Ta bort fordonet från databasen efter att kvittot är generat
+            // Uppdatera InUse till false för associerad ParkingSpace
+            parkedVehicle.ParkingSpace.InUse = false;
+
+            // Ta bort fordonet från databasen
             _db.Vehicles.Remove(parkedVehicle);
+
+            // Spara ändringarna i databasen
             await _db.SaveChangesAsync();
 
             // Returnera kvittovyn med den skapade ViewModel
             return View("Receipt", receiptViewModel);
         }
+
 
 
     }
