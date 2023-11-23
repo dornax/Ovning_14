@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Vehicle>
+﻿@model IEnumerable<Garage3.Models.Entities.Vehicle>
 
 @{
     ViewData["Title"] = "Index";
@@ -40,6 +40,9 @@
                 @Html.DisplayNameFor(model => model.Member)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.VehicleType)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.ParkingSpace)
             </th>
             <th></th>
@@ -78,6 +81,9 @@
             @* <td>
                 @Html.DisplayFor(modelItem => item.VehicleType.Id)
             </td> *@
+            <td>
+                @Html.DisplayFor(modelItem => item.VehicleType.Id)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ParkingSpace.Name)
             </td>

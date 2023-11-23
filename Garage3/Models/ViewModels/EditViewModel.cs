@@ -7,9 +7,9 @@ namespace Garage3.Models.ViewModels
     {
         public int ParkedVehicleId { get; set; }
 
-        [DisplayName("Vehicle type")]
-        [Required]
-        public VehicleType VehicleType { get; set; } = new VehicleType();   
+        //[DisplayName("Vehicle type")]
+        //[Required]
+        //public VehicleType VehicleType { get; set; } = new VehicleType();   
 
         [DisplayName("Registration number")]
         [Required]

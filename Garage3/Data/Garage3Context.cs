@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Garage3.Models.ViewModels;
 
 namespace Garage3.Data
 {
