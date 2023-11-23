@@ -1,5 +1,6 @@
 ﻿namespace Garage3.Models.ViewModels
 {
+    #nullable disable
     public class SearchFilterSortViewModel
     {
         public IEnumerable<MemberShowViewModel> SearchFilterSortMembers { get; set; }
