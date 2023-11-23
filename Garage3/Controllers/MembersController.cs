@@ -99,7 +99,7 @@ namespace Garage3.Controllers
                 return NotFound();
             }
 
-            var member = await _db.Members.Select(m => new MembersEditNewViewModel
+            var member = await _db.Members.Select(m => new Member
             {
                 Id = m.Id,
                 PersonNo = m.PersonNo,
