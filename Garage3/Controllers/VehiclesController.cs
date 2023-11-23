@@ -433,7 +433,7 @@ namespace Garage3.Controllers
                     FirstName = m.FirstName,
                     LastName = m.LastName,
                     NoOfVehicles = m.Vehicles.Count,
-                    Vehicles = m.Vehicles
+                   
                 });
             
             
